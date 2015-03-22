@@ -28,17 +28,6 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h1>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>These pages are still UNDER CONSTRUCTION.</h1>
-
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
-
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
-
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
 
 <h1>
 <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to SAPUI5-Deployer</h1>
@@ -59,9 +48,8 @@ $ git checkout gh-pages
 <h1>
 <a id="system-requirements" class="anchor" href="#system-requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>System Requirements</h1>
 
-<p>This solution was built on a SAP WAS ABAP 7.31 SP5 system with the SAP_UI software component also installed. There is no reason it should not work on this version and all later releases. Earlier releases will need to be tested for compatibility.</p>
-<p>The solution also makes use of the SAP provided function module <code>/ui5/ui5_repository_load_http</code>.</p>
-<p>Whilst the installation instructions suggest copying this function module and changing it to support the direct input of the Github archive it is possible that SAP will modify this function module to support this in a future release.</p>
+<p>This solution was built on a SAP WAS ABAP 7.31 SP5 system with the SAP_UI software component also installed. There is no reason it should not work on all releases that have the function module <code>/ui5/ui5_repository_load_http</code>.</p>
+<p>The installation instructions include making modifications to this function module to support the direct input of the Github archive. It is possible that SAP will modify this function module to support this in a future release.</p>
 
 <h1>  
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h1>
@@ -69,7 +57,7 @@ $ git checkout gh-pages
 <h2>  
 <a id="installation1" class="anchor" href="#installation1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Function module /ui5/ui5_repository_load_http</h2>
 
-<p>The main functionality that I use to deploy the archive is in Function Module <code>/UI5/UI5_REPOSITORY_LOAD_HTTP</code> that is part of the Software Component SAP_UI. You can easily figure out how to use this function module by looking at report <code>/UI5/UI5_REPOSITORY_LOAD_HTTP</code>. <small>*Yes the FM & the Report have the same name ;)</small></p>
+<p>The main functionality used to deploy the archive is in Function Module <code>/UI5/UI5_REPOSITORY_LOAD_HTTP</code> that is part of the Software Component SAP_UI. You can easily figure out how to use this function module by looking at report <code>/UI5/UI5_REPOSITORY_LOAD_HTTP</code>. <small>*Yes the FM and the Report have the same name ;)</small></p>
 <p>In this Report you can also find the syntax of the parameters file that can be used to provide the details like Name of Application etc.</p>
  
 <p>We need to modify this function module slightly as the original version reads the zip archive to be processed via http-call while we want to hand it over as binary data (XSTRING).</p>
@@ -82,54 +70,53 @@ $ git checkout gh-pages
 <pre><code>GET REFERENCE OF <span style="color:black">ev_log_messages</span> INTO <span style="color:black">log_messages_ref.</span>
 CREATE OBJECT <span style="color:black">sapui5_archive</span>
 EXPORTING
-<span style="color:black"> iv_url = iv_url</span>
+<span style="color:black">  iv_url = iv_url</span>
 <span style="color:gray">*{ INSERT IFDK944063 1</span>
-<span style="color:black"> iv_zip_file = iv_zip_file</span>
+<span style="color:black">  iv_zip_file = iv_zip_file</span>
 <span style="color:gray">*} INSERT</span>
-<span style="color:black"> ir_log_messages = log_messages_ref.</span></code></pre>
-<p>Then I have added the importing parameter iv_zip_file to the local class definition for lcl_sapui5_zip_archive. This is around line 136 of the /UI5/LUI5_REPOSITORY_LOADD01 include</p>
+<span style="color:black">  ir_log_messages = log_messages_ref.</span></code></pre>
+<p>Add the importing parameter iv_zip_file to the local class definition for lcl_sapui5_zip_archive. This is around line 136 of the /UI5/LUI5_REPOSITORY_LOADD01 include</p>
 <pre><code>methods:   <span style="color:black">constructor</span>  importing <span style="color:black">iv_url</span> type <span style="color:black">string</span>
                                   <span style="color:black">iv_zip_file</span> type <span style="color:black">xstring</span> optional
                                   <span style="color:black">ir_log_messages</span> type ref to <span style="color:black">string_table,</span></code></pre>
 
-<p>Then in the implementation of this class (include /UI5/LUI5_REPOSITORY_LOADP01) around line 517</p>
+<p>In the implementation of this class (include /UI5/LUI5_REPOSITORY_LOADP01) around line 517</p>
 <pre><code><span style="color:gray">*{ INSERT IFDK944085 1</span>
 if <span style="color:black">iv_zip_file is not supplied.
 <span style="color:gray">*} INSERT</span></code></pre>
-<p>And line approx 556</p>
+<p>...and at line approx 556</p>
 <pre><code>DATA: <span style="color:black">xstring</span> TYPE <span style="color:black">xstring.</span>
-<span style="color:black"> xstring = http_client->response->get_data( ).</span>
+<span style="color:black">  xstring = http_client->response->get_data( ).</span>
 <span style="color:gray">*{ INSERT IFDK944085 2</span>
 else.
-<span style="color:black"> xstring = iv_zip_file.</span>
+<span style="color:black">  xstring = iv_zip_file.</span>
 endif.
 <span style="color:gray">*} INSERT</span></code></pre>
 
-YCL_GITHUB_DEPLOYER
 <h2>  
 <a id="ycl_github_deployer" class="anchor" href="#ycl_github_deployer" aria-hidden="true"><span class="octicon octicon-link"></span></a>YCL_GITHUB_DEPLOYER Class</h2>
 
 <p>Create class YCL_GITHUB_DEPLOYER and the copy and paste in the code from the repo.</p>
 
 <h1>  
-<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Designer Templates</h1>
+<a id="usage-instructions" class="anchor" href="#usage-instructions" aria-hidden="true"><span class="octicon octicon-link"></span></a>How To Use</h1>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h1>
-<a id="rather-drive-stick" class="anchor" href="#rather-drive-stick" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h1>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>TODO - put in some sample code how to do this.</p>
+<pre><code>
+  
+</code></pre>
 
 <h1>
 <a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h1>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
+<p>This code was built for Aussie DemoJam 2015 by Graham Robinson (<a href="https://github.com/grahamrobbo" class="user-mention">@grahamrobbo</a>).</p>
+<p>Much help came from Michael Moessner - especially with the changes to function module /UI5/UI5_REPOSITORY_LOAD_HTTP and the code to unwrap the Github archive.</p>
+<p>And plenty of inspiration and ideas were generated by Matt Harding and Nigel James(<a href="https://github.com/njames" class="user-mention">@njames</a>).</p>
+<p>Thank you</p>
 <h1>
 <a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support or Contact</h1>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="https://help.github.com/pages">https://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<p>Offered on an "as is" basis. I will try and help you with issues if I can but I can't domore than I can do.</p>
         </section>
 
         <aside id="sidebar">
