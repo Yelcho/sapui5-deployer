@@ -19,110 +19,111 @@ CLASS ycl_github_deployer DEFINITION
         !transport TYPE trkorr OPTIONAL
         !test_only TYPE boolean OPTIONAL .
   PROTECTED SECTION.
-  PRIVATE SECTION.
+private section.
 
-    TYPES:
-      BEGIN OF submodule_info_type,
+  types:
+    BEGIN OF submodule_info_type,
         folder TYPE string,
         repository TYPE string,
         branch TYPE string,
       END OF submodule_info_type .
-    TYPES:
-      submodule_info_ttype TYPE TABLE OF submodule_info_type .
+  types:
+    submodule_info_ttype TYPE TABLE OF submodule_info_type .
 
-    DATA repository TYPE string .
-    DATA branch TYPE string .
-    DATA transport TYPE trkorr .
-    DATA test_only TYPE boolean .
-    DATA github_user TYPE string .
-    DATA password TYPE string .
-    DATA minify_file_count TYPE i .
-    DATA minify_byte_count TYPE i .
+  data REPOSITORY type STRING .
+  data BRANCH type STRING .
+  data TRANSPORT type TRKORR .
+  data TEST_ONLY type BOOLEAN .
+  data GITHUB_USER type STRING .
+  data PASSWORD type STRING .
+  data MINIFY_FILE_COUNT type I .
+  data MINIFY_BYTE_COUNT type I .
 
-    METHODS get_css_minify_params
-      RETURNING
-        value(rt_params) TYPE tihttpnvp .
-    METHODS get_js_minify_params
-      RETURNING
-        value(rt_params) TYPE tihttpnvp .
-    METHODS constructor
-      IMPORTING
-        !repository TYPE string
-        !branch TYPE string
-        !github_user TYPE string OPTIONAL
-        !password TYPE string OPTIONAL
-        !transport TYPE trkorr OPTIONAL
-        !test_only TYPE boolean OPTIONAL .
-    METHODS save_zip_file
-      IMPORTING
-        !archive TYPE REF TO cl_abap_zip .
-    METHODS add_module_to_archive
-      IMPORTING
-        !info TYPE submodule_info_type
-        value(archive) TYPE REF TO cl_abap_zip .
-    METHODS get_module_archive
-      IMPORTING
-        !url TYPE string
-        !user TYPE string
-        !password TYPE string
-      RETURNING
-        value(archive) TYPE REF TO cl_abap_zip .
-    METHODS remove_cover_folder
-      IMPORTING
-        !archive TYPE REF TO cl_abap_zip
-      RETURNING
-        value(new_archive) TYPE REF TO cl_abap_zip .
-    METHODS minify
-      IMPORTING
-        !data_in TYPE xstring
-        !file_type TYPE string
-      RETURNING
-        value(data_out) TYPE xstring .
-    METHODS minify_js
-      IMPORTING
-        !data_in TYPE xstring
-      RETURNING
-        value(data_out) TYPE xstring .
-    METHODS minify_css
-      IMPORTING
-        !data_in TYPE xstring
-      RETURNING
-        value(data_out) TYPE xstring .
-    METHODS cleanup_stringdata
-      IMPORTING
-        !data_in TYPE string
-        !nogaps TYPE boolean OPTIONAL
-      RETURNING
-        value(data_out) TYPE string .
-    METHODS cleanup_xmldata
-      IMPORTING
-        !data_in TYPE string
-        !nogaps TYPE boolean OPTIONAL
-      RETURNING
-        value(data_out) TYPE string .
-    METHODS upload_archive_into_icf
-      IMPORTING
-        value(archive) TYPE REF TO cl_abap_zip .
-    METHODS xstring_to_string
-      IMPORTING
-        !in TYPE xstring
-      RETURNING
-        value(out) TYPE string .
-    METHODS string_to_xstring
-      IMPORTING
-        !in TYPE string
-      RETURNING
-        value(out) TYPE xstring .
-    METHODS get_submodule_info
-      IMPORTING
-        !iv_submodule_data TYPE xstring
-      EXPORTING
-        value(et_submodule_info) TYPE submodule_info_ttype .
-    METHODS get_file_type
-      IMPORTING
-        !iv_filename TYPE string
-      RETURNING
-        value(rv_filetype) TYPE string .
+  methods GET_CSS_MINIFY_PARAMS
+    returning
+      value(RT_PARAMS) type TIHTTPNVP .
+  methods GET_JS_MINIFY_PARAMS
+    returning
+      value(RT_PARAMS) type TIHTTPNVP .
+  methods CONSTRUCTOR
+    importing
+      !REPOSITORY type STRING
+      !BRANCH type STRING
+      !GITHUB_USER type STRING optional
+      !PASSWORD type STRING optional
+      !TRANSPORT type TRKORR optional
+      !TEST_ONLY type BOOLEAN optional .
+  methods SAVE_ZIP_FILE
+    importing
+      !ARCHIVE type ref to CL_ABAP_ZIP .
+  methods ADD_MODULE_TO_ARCHIVE
+    importing
+      !INFO type SUBMODULE_INFO_TYPE
+      value(ARCHIVE) type ref to CL_ABAP_ZIP .
+  methods GET_MODULE_ARCHIVE
+    importing
+      !URL type STRING
+      !USER type STRING
+      !PASSWORD type STRING
+    returning
+      value(ARCHIVE) type ref to CL_ABAP_ZIP .
+  methods REMOVE_COVER_FOLDER
+    importing
+      !ARCHIVE type ref to CL_ABAP_ZIP
+    returning
+      value(NEW_ARCHIVE) type ref to CL_ABAP_ZIP .
+  methods MINIFY
+    importing
+      !DATA_IN type XSTRING
+      !FILE_TYPE type STRING
+    returning
+      value(DATA_OUT) type XSTRING .
+  methods MINIFY_JS
+    importing
+      !DATA_IN type XSTRING
+    returning
+      value(DATA_OUT) type XSTRING .
+  methods MINIFY_CSS
+    importing
+      !DATA_IN type XSTRING
+    returning
+      value(DATA_OUT) type XSTRING .
+  methods CLEANUP_STRINGDATA
+    importing
+      !DATA_IN type STRING
+      !NOGAPS type BOOLEAN optional
+    returning
+      value(DATA_OUT) type STRING .
+  methods CLEANUP_XMLDATA
+    importing
+      !DATA_IN type STRING
+      !NOGAPS type BOOLEAN optional
+    returning
+      value(DATA_OUT) type STRING .
+  methods UPLOAD_ARCHIVE_INTO_ICF
+    importing
+      value(ARCHIVE) type ref to CL_ABAP_ZIP .
+  methods XSTRING_TO_STRING
+    importing
+      !IN type XSTRING
+    returning
+      value(OUT) type STRING .
+  methods STRING_TO_XSTRING
+    importing
+      !IN type STRING
+    returning
+      value(OUT) type XSTRING .
+  methods GET_SUBMODULE_INFO
+    importing
+      !IV_SUBMODULE_DATA type XSTRING
+    exporting
+      value(ET_SUBMODULE_INFO) type SUBMODULE_INFO_TTYPE .
+  methods GET_FILE_TYPE
+    importing
+      !IV_FILENAME type STRING
+    returning
+      value(RV_FILETYPE) type STRING .
+  methods RECALC_CACHEBUSTER .
 ENDCLASS.
 
 
@@ -362,7 +363,7 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
 * Remove all spaces that immediately follow a new line - hope there are none inside XML data ;)
     DO.
       REPLACE ALL OCCURRENCES OF `\n ` IN data_out WITH `\n`.
-      IF sy-subrc NE 0. EXIT. ENDIF.
+      IF sy-subrc NE 0 OR sy-index > 500. EXIT. ENDIF.
     ENDDO.
 
 * Remove line feeds - should be none left
@@ -410,6 +411,10 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
     ENDIF.
 
     upload_archive_into_icf( lo_archive ).
+
+    IF test_only NE abap_true.
+      recalc_cachebuster( ).
+    ENDIF.
 
   ENDMETHOD.                    "constructor
 
@@ -877,6 +882,17 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
     ADD lv_byte_diff TO minify_byte_count.
 
   ENDMETHOD.                    "minify
+
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Private Method YCL_GITHUB_DEPLOYER->RECALC_CACHEBUSTER
+* +-------------------------------------------------------------------------------------------------+
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+METHOD recalc_cachebuster.
+
+  SUBMIT /ui5/update_cachebuster AND RETURN.
+
+ENDMETHOD.
 
 
 * <SIGNATURE>---------------------------------------------------------------------------------------+
