@@ -50,9 +50,24 @@
 
 <p>This solution was built on a SAP WAS ABAP 7.31 SP5 system with the SAP_UI software component also installed. There is no reason it should not work on all releases that have the function module <code>/ui5/ui5_repository_load_http</code>.</p>
 <p>The installation instructions include making modifications to this function module to support the direct input of the Github archive. It is possible that SAP will modify this function module to support this in a future release.</p>
-<p>It also makes use of Uwe Fetzer's (<a href="https://github.com/se38" class="user-mention">@se38</a>) <a href="https://github.com/se38/zJSON">zJSON project</a> for deserialising JSON into ABAP.</p>
+<p>Uwe Fetzer's (<a href="https://github.com/se38" class="user-mention">@se38</a>) <a href="https://github.com/se38/zJSON">zJSON project</a> for deserialising JSON into ABAP.</p>
+<p>GitHub requires HTTPS access so the ABAP ICF will need to have this SSL setup and the appropriate certificates installed using transaction STRUST.</p>
 <h1>  
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h1>
+
+<h2>  
+<a id="installation1" class="anchor" href="#installation1" aria-hidden="true"><span class="octicon octicon-link"></span></a>STRUST/SSL setup</h2>
+
+<p>Download the CA root certificate(s) that GitHub uses from https://www.digicert.com/digicert-root-certificates.htm. You can find which specific certificate GitHub uses from the GitHub documentation. Alternatively you can find which certificate GitHub uses from you browser.</p>
+
+<p>Install the certificate(s) in STRUST under "SSL System Client SSL Client (Anonymous)"</p>
+<p>Restart ICM using transaction SMICM</p>
+<p>If you are having trouble these blogs show examples of this procedure.</p>
+
+<p><a href="http://scn.sap.com/people/jens.gleichmann/blog/2008/10/31/calling-webservices-from-abap-via-httpsssl-with-pfx-certificates">http://scn.sap.com/people/jens.gleichmann/blog/2008/10/31/calling-webservices-from-abap-via-httpsssl-with-pfx-certificates</a></p>
+<p><a href="http://scn.sap.com/people/thomas.jung/blog/2004/11/17/bsp-a-developers-journal-part-xiv--consuming-webservices-with-abap">http://scn.sap.com/people/thomas.jung/blog/2004/11/17/bsp-a-developers-journal-part-xiv--consuming-webservices-with-abap</a></p>
+<p>The certificate list should end up looking something like this:</p>
+<img src="images/strust.png" />
 
 <h2>  
 <a id="installation1" class="anchor" href="#installation1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Function module /ui5/ui5_repository_load_http</h2>
@@ -132,7 +147,7 @@ START-OF-SELECTION.
       MESSAGE exc TYPE 'I' DISPLAY LIKE 'E'.
   ENDTRY.
 </code></pre>
-
+<p>The "TEST" flag will build the complete archive but, rather than deploying it, will allow you to save it to your local file system.</p>
 <h1>
 <a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h1>
 
@@ -144,7 +159,7 @@ START-OF-SELECTION.
 <h1>
 <a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support or Contact</h1>
 
-<p>Offered on an "as is" basis. I will try and help you with issues if I can but I can't do more than I can do.</p>
+<p>Offered on an "as is" basis. I will try and help you with issues if I can but I can't do more than I can do or than I have time to do.</p>
         </section>
 
         <aside id="sidebar">
