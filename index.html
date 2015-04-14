@@ -56,16 +56,14 @@
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h1>
 
 <h2>  
-<a id="installation1" class="anchor" href="#installation1" aria-hidden="true"><span class="octicon octicon-link"></span></a>STRUST/SSL setup</h2>
-
-<p>Download the CA root certificate(s) that GitHub uses from https://www.digicert.com/digicert-root-certificates.htm. You can find which specific certificate GitHub uses from the GitHub documentation. Alternatively you can find which certificate GitHub uses from you browser.</p>
+<a id="installation1" class="anchor" href="#installation1" aria-hidden="true"><span class="octicon octicon-link"></span></a>SSL setup</h2>
+<p>Refer to the relevant SAP Documentation <a href="https://help.sap.com/saphelp_nw70/helpdata/en/65/6a563cef658a06e10000000a11405a/content.htm" target="_blank">Configuring the SAP Web AS for Supporting SSL</a>.</p>
+<p>As you will only be using this code on a development system you may choose to use a self-signed certificate.</p>
+<p>Download the CA root certificate(s) that GitHub uses from <a href="https://www.digicert.com/digicert-root-certificates.htm" target="_blank">https://www.digicert.com/digicert-root-certificates.htm</a>. You can find which specific certificate GitHub uses from the GitHub documentation or use your web browser to determine it.
+</p>
 
 <p>Install the certificate(s) in STRUST under "SSL System Client SSL Client (Anonymous)"</p>
 <p>Restart ICM using transaction SMICM</p>
-<p>If you are having trouble these blogs show examples of this procedure.</p>
-
-<p><a href="http://scn.sap.com/people/jens.gleichmann/blog/2008/10/31/calling-webservices-from-abap-via-httpsssl-with-pfx-certificates">http://scn.sap.com/people/jens.gleichmann/blog/2008/10/31/calling-webservices-from-abap-via-httpsssl-with-pfx-certificates</a></p>
-<p><a href="http://scn.sap.com/people/thomas.jung/blog/2004/11/17/bsp-a-developers-journal-part-xiv--consuming-webservices-with-abap">http://scn.sap.com/people/thomas.jung/blog/2004/11/17/bsp-a-developers-journal-part-xiv--consuming-webservices-with-abap</a></p>
 <p>The certificate list should end up looking something like this:</p>
 <img src="images/strust.png" />
 
