@@ -44,6 +44,7 @@
   <li>Deploy to SAP Internet Communications Framework</li>
   <li>Flush cache</li>
 </ul>
+<center><img src="images/SAPUI5logo.png" width="20%"> <img src="images/OpenUI5logo.png" width="20%"></center>
 
 <h1>
 <a id="system-requirements" class="anchor" href="#system-requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>System Requirements</h1>
@@ -152,7 +153,7 @@ START-OF-SELECTION.
 <p>If your infratructure guys will allow HTTP calls from outside your corporate network to be passed through to your development WAS you can build a ICF handler that can be called using a <a href="https://developer.github.com/webhooks/" target="_blank">GitHub Webhook</a> whenever there is a commit or branch merge to master. When triggered this handler should check the API call for validity before calling the <code>YCL_GITHUB_DEPLOYER</code> class. In my opinion this is the best way to trigger deployment as the code is only executed when actually required.</p>
 
 <p>If you are unable to use the GitHub Webhook method you can build a program that calls the <a href="https://developer.github.com/" target="_blank">GitHub API</a> to see if the SHA-1 hash of the master branch has changed. If it has then the <code>YCL_GITHUB_DEPLOYER</code> class can be called. I suggest storing the SHA-1 hash in a server-side cookie (<code>CL_BSP_SERVER_SIDE_COOKIE</code>) for this purpose. This program would need to be scheduled as a regular background job so that it regularly checks if a deployment is required.</p>
-<center><img src="images/ci.png" width="50%"></center>
+<center><img src="images/rocketship.png" width="100%"></center>
 <h1>
 <a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h1>
 
