@@ -12,118 +12,122 @@ CLASS ycl_github_deployer DEFINITION
 
     CLASS-METHODS deploy
       IMPORTING
-        !repository TYPE string
-        !branch TYPE string
+        !repository  TYPE string
+        !branch      TYPE string
         !github_user TYPE string OPTIONAL
-        !password TYPE string OPTIONAL
-        !transport TYPE trkorr OPTIONAL
-        !test_only TYPE boolean OPTIONAL .
+        !password    TYPE string OPTIONAL
+        !transport   TYPE trkorr OPTIONAL
+        !test_only   TYPE boolean OPTIONAL .
   PROTECTED SECTION.
-private section.
+  PRIVATE SECTION.
 
-  types:
-    BEGIN OF submodule_info_type,
-        folder TYPE string,
+    TYPES:
+      BEGIN OF submodule_info_type,
+        folder     TYPE string,
         repository TYPE string,
-        branch TYPE string,
+        branch     TYPE string,
       END OF submodule_info_type .
-  types:
-    submodule_info_ttype TYPE TABLE OF submodule_info_type .
+    TYPES:
+      submodule_info_ttype TYPE STANDARD TABLE OF submodule_info_type .
 
-  data REPOSITORY type STRING .
-  data BRANCH type STRING .
-  data TRANSPORT type TRKORR .
-  data TEST_ONLY type BOOLEAN .
-  data GITHUB_USER type STRING .
-  data PASSWORD type STRING .
-  data MINIFY_FILE_COUNT type I .
-  data MINIFY_BYTE_COUNT type I .
+    DATA repository TYPE string .
+    DATA branch TYPE string .
+    DATA transport TYPE trkorr .
+    DATA test_only TYPE boolean .
+    DATA github_user TYPE string .
+    DATA password TYPE string .
+    DATA minify_file_count TYPE i .
+    DATA minify_byte_count TYPE i .
+    DATA enable_minify TYPE boolean VALUE abap_true ##NO_TEXT.
 
-  methods GET_CSS_MINIFY_PARAMS
-    returning
-      value(RT_PARAMS) type TIHTTPNVP .
-  methods GET_JS_MINIFY_PARAMS
-    returning
-      value(RT_PARAMS) type TIHTTPNVP .
-  methods CONSTRUCTOR
-    importing
-      !REPOSITORY type STRING
-      !BRANCH type STRING
-      !GITHUB_USER type STRING optional
-      !PASSWORD type STRING optional
-      !TRANSPORT type TRKORR optional
-      !TEST_ONLY type BOOLEAN optional .
-  methods SAVE_ZIP_FILE
-    importing
-      !ARCHIVE type ref to CL_ABAP_ZIP .
-  methods ADD_MODULE_TO_ARCHIVE
-    importing
-      !INFO type SUBMODULE_INFO_TYPE
-      value(ARCHIVE) type ref to CL_ABAP_ZIP .
-  methods GET_MODULE_ARCHIVE
-    importing
-      !URL type STRING
-      !USER type STRING
-      !PASSWORD type STRING
-    returning
-      value(ARCHIVE) type ref to CL_ABAP_ZIP .
-  methods REMOVE_COVER_FOLDER
-    importing
-      !ARCHIVE type ref to CL_ABAP_ZIP
-    returning
-      value(NEW_ARCHIVE) type ref to CL_ABAP_ZIP .
-  methods MINIFY
-    importing
-      !DATA_IN type XSTRING
-      !FILE_TYPE type STRING
-    returning
-      value(DATA_OUT) type XSTRING .
-  methods MINIFY_JS
-    importing
-      !DATA_IN type XSTRING
-    returning
-      value(DATA_OUT) type XSTRING .
-  methods MINIFY_CSS
-    importing
-      !DATA_IN type XSTRING
-    returning
-      value(DATA_OUT) type XSTRING .
-  methods CLEANUP_STRINGDATA
-    importing
-      !DATA_IN type STRING
-      !NOGAPS type BOOLEAN optional
-    returning
-      value(DATA_OUT) type STRING .
-  methods CLEANUP_XMLDATA
-    importing
-      !DATA_IN type STRING
-      !NOGAPS type BOOLEAN optional
-    returning
-      value(DATA_OUT) type STRING .
-  methods UPLOAD_ARCHIVE_INTO_ICF
-    importing
-      value(ARCHIVE) type ref to CL_ABAP_ZIP .
-  methods XSTRING_TO_STRING
-    importing
-      !IN type XSTRING
-    returning
-      value(OUT) type STRING .
-  methods STRING_TO_XSTRING
-    importing
-      !IN type STRING
-    returning
-      value(OUT) type XSTRING .
-  methods GET_SUBMODULE_INFO
-    importing
-      !IV_SUBMODULE_DATA type XSTRING
-    exporting
-      value(ET_SUBMODULE_INFO) type SUBMODULE_INFO_TTYPE .
-  methods GET_FILE_TYPE
-    importing
-      !IV_FILENAME type STRING
-    returning
-      value(RV_FILETYPE) type STRING .
-  methods RECALC_CACHEBUSTER .
+    METHODS constructor
+      IMPORTING
+        !repository  TYPE string
+        !branch      TYPE string
+        !github_user TYPE string OPTIONAL
+        !password    TYPE string OPTIONAL
+        !transport   TYPE trkorr OPTIONAL
+        !test_only   TYPE boolean OPTIONAL
+      RAISING
+        cx_sy_create_data_error .
+    METHODS add_module_to_archive
+      IMPORTING
+        !info          TYPE submodule_info_type
+        VALUE(archive) TYPE REF TO cl_abap_zip .
+    METHODS cleanup_stringdata
+      IMPORTING
+        !data_in        TYPE string
+        !nogaps         TYPE boolean OPTIONAL
+      RETURNING
+        VALUE(data_out) TYPE string .
+    METHODS cleanup_xmldata
+      IMPORTING
+        !data_in        TYPE string
+      RETURNING
+        VALUE(data_out) TYPE string .
+    METHODS get_file_type
+      IMPORTING
+        !iv_filename       TYPE string
+      RETURNING
+        VALUE(rv_filetype) TYPE string .
+    METHODS get_css_minify_params
+      RETURNING
+        VALUE(rt_params) TYPE tihttpnvp .
+    METHODS get_js_minify_params
+      RETURNING
+        VALUE(rt_params) TYPE tihttpnvp .
+    METHODS get_module_archive
+      IMPORTING
+        !url           TYPE string
+        !user          TYPE string
+        !password      TYPE string
+      RETURNING
+        VALUE(archive) TYPE REF TO cl_abap_zip .
+    METHODS get_submodule_info
+      IMPORTING
+        !iv_submodule_data       TYPE xstring
+      EXPORTING
+        VALUE(et_submodule_info) TYPE submodule_info_ttype .
+    METHODS minify
+      IMPORTING
+        !data_in        TYPE xstring
+        !file_type      TYPE string
+      RETURNING
+        VALUE(data_out) TYPE xstring .
+    METHODS minify_js
+      IMPORTING
+        !data_in        TYPE xstring
+      RETURNING
+        VALUE(data_out) TYPE xstring .
+    METHODS minify_css
+      IMPORTING
+        !data_in        TYPE xstring
+      RETURNING
+        VALUE(data_out) TYPE xstring .
+    METHODS remove_cover_folder
+      IMPORTING
+        !archive           TYPE REF TO cl_abap_zip
+      RETURNING
+        VALUE(new_archive) TYPE REF TO cl_abap_zip .
+    METHODS save_archive_file
+      IMPORTING
+        !archive TYPE REF TO cl_abap_zip .
+    METHODS update_cachebuster .
+    METHODS upload_archive_into_icf
+      IMPORTING
+        VALUE(archive) TYPE REF TO cl_abap_zip
+      RAISING
+        cx_sy_create_data_error .
+    METHODS xstring_to_string
+      IMPORTING
+        !in        TYPE xstring
+      RETURNING
+        VALUE(out) TYPE string .
+    METHODS string_to_xstring
+      IMPORTING
+        !in        TYPE string
+      RETURNING
+        VALUE(out) TYPE xstring .
 ENDCLASS.
 
 
@@ -139,21 +143,20 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD add_module_to_archive.
 
-    DATA: lo_archive            TYPE REF TO cl_abap_zip,
-          ls_file               LIKE LINE OF archive->files,
-          lv_content            TYPE xstring,
-          lv_cdata              TYPE string,
-          lv_preload_namespace  TYPE string,
-          lt_preload_modules    TYPE tihttpnvp,
-          lr_preload_module     TYPE REF TO ihttpnvp,
-          lv_component          TYPE string,
-          lv_junk               TYPE string,
-          l                     TYPE i.
+    DATA: lo_archive           TYPE REF TO cl_abap_zip,
+          ls_file              LIKE LINE OF archive->files,
+          lv_content           TYPE xstring,
+          lv_cdata             TYPE string,
+          lv_preload_namespace TYPE string,
+          lt_preload_modules   TYPE tihttpnvp,
+          lr_preload_module    TYPE REF TO ihttpnvp,
+          lv_component         TYPE string,
+          lv_junk              TYPE string ##needed.
 
     WRITE:/, `Adding module`, info-repository, info-branch, 'to archive'.
 
     lo_archive = remove_cover_folder( get_module_archive(
-        url      = |http://github.com/{ info-repository }/archive/{ info-branch }.zip|
+        url      = |http://github.com/{ info-repository }/zipball/{ info-branch }|
         user     = me->github_user
         password = me->password ) ).
 
@@ -205,33 +208,32 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
       ENDIF.
 
 * Minification
-      CASE get_file_type( ls_file-name ).
-        WHEN 'JS'.
-          lv_content = minify_js( lv_content ).
-        WHEN 'CSS'.
-          lv_content = minify_css( lv_content ).
-        WHEN OTHERS.
-      ENDCASE.
+      IF enable_minify = abap_true.
 
-* Collect details for Component.preload
-      IF lv_preload_namespace IS NOT INITIAL.
-        CASE get_file_type( ls_file-name ).
-          WHEN 'JS'.
-            APPEND INITIAL LINE TO lt_preload_modules REFERENCE INTO lr_preload_module.
-            lr_preload_module->name = |{ lv_preload_namespace }/{ ls_file-name }|.
-            lr_preload_module->value = xstring_to_string( lv_content ).
-          WHEN 'XML'.
-            IF ls_file-name CS '.view.xml'.
+        lv_content = minify(
+            data_in   = lv_content
+            file_type = get_file_type( ls_file-name ) ).
+
+* Collect details for Component.preload - not much point doing this unless minification works
+        IF lv_preload_namespace IS NOT INITIAL.
+          CASE get_file_type( ls_file-name ).
+            WHEN 'JS'.
+              APPEND INITIAL LINE TO lt_preload_modules REFERENCE INTO lr_preload_module.
+              lr_preload_module->name = |{ lv_preload_namespace }/{ ls_file-name }|.
+              lr_preload_module->value = xstring_to_string( lv_content ).
+            WHEN 'XML'.
+              IF ls_file-name CS '.view.xml'.
+                APPEND INITIAL LINE TO lt_preload_modules REFERENCE INTO lr_preload_module.
+                lr_preload_module->name = |{ lv_preload_namespace }/{ ls_file-name }|.
+                lr_preload_module->value =  me->cleanup_xmldata( xstring_to_string( lv_content ) ).
+              ENDIF.
+            WHEN 'PROPERTIES'.
               APPEND INITIAL LINE TO lt_preload_modules REFERENCE INTO lr_preload_module.
               lr_preload_module->name = |{ lv_preload_namespace }/{ ls_file-name }|.
               lr_preload_module->value =  me->cleanup_xmldata( xstring_to_string( lv_content ) ).
-            ENDIF.
-          WHEN 'PROPERTIES'.
-            APPEND INITIAL LINE TO lt_preload_modules REFERENCE INTO lr_preload_module.
-            lr_preload_module->name = |{ lv_preload_namespace }/{ ls_file-name }|.
-            lr_preload_module->value =  me->cleanup_xmldata( xstring_to_string( lv_content ) ).
-          WHEN OTHERS.
-        ENDCASE.
+            WHEN OTHERS.
+          ENDCASE.
+        ENDIF.
       ENDIF.
 
       IF info-folder IS NOT INITIAL.
@@ -262,7 +264,7 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
     ENDLOOP.
 
 * Build Component.preload and add to archive
-    IF lv_preload_namespace IS NOT INITIAL.
+    IF lv_preload_namespace IS NOT INITIAL AND enable_minify = abap_true.
       LOOP AT lt_preload_modules REFERENCE INTO lr_preload_module.
         REPLACE ALL OCCURRENCES OF `"` IN lr_preload_module->value WITH `\"`.
         IF lv_cdata IS INITIAL.
@@ -297,15 +299,15 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD cleanup_stringdata.
 
-    CONSTANTS: lf   TYPE x LENGTH 4 VALUE '0A',
-               cr   TYPE x LENGTH 4 VALUE '0D',
-               tab  TYPE x LENGTH 4 VALUE '09',
-               spc  TYPE x LENGTH 4 VALUE '20'.
+    CONSTANTS: lf  TYPE x LENGTH 4 VALUE '0A',
+               cr  TYPE x LENGTH 4 VALUE '0D',
+               tab TYPE x LENGTH 4 VALUE '09',
+               spc TYPE x LENGTH 4 VALUE '20'.
 
-    FIELD-SYMBOLS: <lf>     TYPE char1,
-                   <cr>     TYPE char1,
-                   <tab>    TYPE char1,
-                   <space>  TYPE char1.
+    FIELD-SYMBOLS: <lf>    TYPE char1,
+                   <cr>    TYPE char1,
+                   <tab>   TYPE char1,
+                   <space> TYPE char1.
 
     ASSIGN lf   TO <lf>     CASTING.
     ASSIGN cr   TO <cr>     CASTING.
@@ -334,20 +336,19 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
 * | Instance Private Method YCL_GITHUB_DEPLOYER->CLEANUP_XMLDATA
 * +-------------------------------------------------------------------------------------------------+
 * | [--->] DATA_IN                        TYPE        STRING
-* | [--->] NOGAPS                         TYPE        BOOLEAN(optional)
 * | [<-()] DATA_OUT                       TYPE        STRING
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD cleanup_xmldata.
 
-    CONSTANTS: lf   TYPE x LENGTH 4 VALUE '0A',
-               cr   TYPE x LENGTH 4 VALUE '0D',
-               tab  TYPE x LENGTH 4 VALUE '09',
-               spc  TYPE x LENGTH 4 VALUE '20'.
+    CONSTANTS: lf  TYPE x LENGTH 4 VALUE '0A',
+               cr  TYPE x LENGTH 4 VALUE '0D',
+               tab TYPE x LENGTH 4 VALUE '09',
+               spc TYPE x LENGTH 4 VALUE '20'.
 
-    FIELD-SYMBOLS: <lf>     TYPE char1,
-                   <cr>     TYPE char1,
-                   <tab>    TYPE char1,
-                   <space>  TYPE char1.
+    FIELD-SYMBOLS: <lf>    TYPE char1,
+                   <cr>    TYPE char1,
+                   <tab>   TYPE char1,
+                   <space> TYPE char1.
 
     ASSIGN lf   TO <lf>     CASTING.
     ASSIGN cr   TO <cr>     CASTING.
@@ -383,6 +384,7 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
 * | [--->] PASSWORD                       TYPE        STRING(optional)
 * | [--->] TRANSPORT                      TYPE        TRKORR(optional)
 * | [--->] TEST_ONLY                      TYPE        BOOLEAN(optional)
+* | [!CX!] CX_SY_CREATE_DATA_ERROR
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD constructor.
 
@@ -393,28 +395,23 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
     me->transport = transport.
     me->test_only = test_only.
 
-
     DATA: lo_archive TYPE REF TO cl_abap_zip,
-          ls_module TYPE submodule_info_type.
-
-    CREATE OBJECT lo_archive.
+          ls_module  TYPE submodule_info_type.
 
     ls_module-repository = me->repository.
     ls_module-branch = me->branch.
+
+    CREATE OBJECT lo_archive.
 
     add_module_to_archive(
       info    = ls_module
       archive = lo_archive ).
 
-    IF test_only = abap_true.
-      save_zip_file( lo_archive ).
-    ENDIF.
+    save_archive_file( lo_archive ).
 
     upload_archive_into_icf( lo_archive ).
 
-    IF test_only NE abap_true.
-      recalc_cachebuster( ).
-    ENDIF.
+    update_cachebuster( ).
 
   ENDMETHOD.                    "constructor
 
@@ -509,7 +506,7 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
 * | [<-()] RV_FILETYPE                    TYPE        STRING
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD get_file_type.
-    DATA: lt_strings TYPE stringtab,
+    DATA: lt_strings   TYPE stringtab,
           lr_extension TYPE REF TO string.
 
     SPLIT iv_filename AT '.' INTO TABLE lt_strings.
@@ -616,8 +613,8 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD get_module_archive.
 
-    DATA: lr_client TYPE REF TO if_http_client,
-          lv_code TYPE i,
+    DATA: lr_client  TYPE REF TO if_http_client,
+          lv_code    TYPE i,
           lv_message TYPE string.
 
     WRITE:/, `Retrieving archive from`, url.
@@ -628,10 +625,7 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
       IMPORTING
         client = lr_client
       EXCEPTIONS
-        argument_not_found = 1
-        plugin_not_active = 2
-        internal_error = 3
-        OTHERS = 4 ).
+        OTHERS = 1 ).
 
     IF sy-subrc <> 0.
       MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
@@ -644,8 +638,21 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
       lr_client->propertytype_accept_cookie = if_http_client=>co_enabled.
     ENDIF.
 
-    lr_client->send( ).
-    lr_client->receive( ).
+    lr_client->send( EXCEPTIONS OTHERS = 1 ).
+    IF sy-subrc <> 0.
+      lv_message = |http send error|.
+      WRITE:/, lv_message COLOR COL_NEGATIVE.
+      MESSAGE lv_message TYPE 'E' DISPLAY LIKE 'I'.
+      RETURN.
+    ENDIF.
+    lr_client->receive( EXCEPTIONS OTHERS = 1 ).
+    IF sy-subrc <> 0.
+      lv_message = |http receive error|.
+      WRITE:/, lv_message COLOR COL_NEGATIVE.
+      MESSAGE lv_message TYPE 'E' DISPLAY LIKE 'I'.
+      RETURN.
+    ENDIF.
+
     lr_client->response->get_status( IMPORTING code = lv_code ).
 
     IF lv_code NE 200.
@@ -684,12 +691,12 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
 
     DATA: lv_gitmodules TYPE string,
           lt_gitmodules TYPE stringtab,
-          lr_string TYPE REF TO string,
-          lv_junk1 TYPE string,
-          lv_junk2 TYPE string,
-          lr_url TYPE REF TO string,
-          lr_path TYPE REF TO string,
-          ls_submodule TYPE submodule_info_type.
+          lr_string     TYPE REF TO string,
+          lv_junk1      TYPE string ##needed,
+          lv_junk2      TYPE string ##needed,
+          lr_url        TYPE REF TO string,
+          lr_path       TYPE REF TO string ##needed,
+          ls_submodule  TYPE submodule_info_type.
 
     CONSTANTS: lf  TYPE x LENGTH 4 VALUE '0A00'.
     FIELD-SYMBOLS: <lf> TYPE char1.
@@ -731,19 +738,15 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
       WHEN 'CSS'.
         data_out = minify_css( data_in ).
       WHEN OTHERS.
-        data_out = data_in.
-        RETURN.
     ENDCASE.
 
-    IF data_out IS INITIAL.
-      data_out = string_to_xstring( cleanup_stringdata( data_in = xstring_to_string( data_in ) ) ).
+    IF data_out IS INITIAL. "If minification failed just return unchanged data
+      data_out = data_in.
     ENDIF.
 
+* Increment counters
     ADD 1 TO minify_file_count.
-
-    DATA: lv_byte_diff TYPE i.
-    lv_byte_diff = xstrlen( data_in ) - xstrlen( data_out ).
-    ADD lv_byte_diff TO minify_byte_count.
+    minify_byte_count = minify_byte_count + xstrlen( data_in ) - xstrlen( data_out ).
 
   ENDMETHOD.                    "minify
 
@@ -756,15 +759,15 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD minify_css.
 
-    DATA: lr_client TYPE REF TO if_http_client,
-          lv_code TYPE i,
+    DATA: lr_client  TYPE REF TO if_http_client,
+          lv_code    TYPE i,
           lt_ffields TYPE tihttpnvp,
-          lr_ffield TYPE REF TO ihttpnvp.
+          lr_ffield  TYPE REF TO ihttpnvp.
 
     DATA: BEGIN OF json_response,
-      code TYPE string,
-      map TYPE string,
-      END OF json_response.
+            code TYPE string,
+            map  TYPE string,
+          END OF json_response.
 
     cl_http_client=>create_by_url(
       EXPORTING
@@ -787,9 +790,28 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
       lr_client->request->set_form_fields( lt_ffields ).
       lr_client->request->set_method( if_http_request=>co_request_method_post ).
 
-      lr_client->send( ).
-      lr_client->receive( ).
-      lr_client->response->get_status( IMPORTING code = lv_code ).
+      lr_client->send(
+        EXCEPTIONS
+          http_communication_failure = 1
+          http_invalid_state         = 2
+          http_processing_failed     = 3
+          http_invalid_timeout       = 4
+          OTHERS                     = 5 ).
+      IF sy-subrc <> 0.
+        enable_minify = abap_false.
+      ELSE.
+        lr_client->receive(
+          EXCEPTIONS
+            http_communication_failure = 1
+            http_invalid_state         = 2
+            http_processing_failed     = 3
+            OTHERS                     = 4 ).
+        IF sy-subrc <> 0.
+          enable_minify = abap_false.
+        ELSE.
+          lr_client->response->get_status( IMPORTING code = lv_code ).
+        ENDIF.
+      ENDIF.
 
       IF lv_code EQ 200.
         TRY.
@@ -797,20 +819,10 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
               lr_client->response->get_cdata( )
               )->get_data( IMPORTING data = json_response ).
             data_out = string_to_xstring( json_response-code ).
-          CATCH zcx_json_document.
+          CATCH zcx_json_document ##NO_HANDLER.
         ENDTRY.
       ENDIF.
     ENDIF.
-
-    IF data_out IS INITIAL.
-      data_out = string_to_xstring( cleanup_stringdata( data_in = xstring_to_string( data_in ) ) ).
-    ENDIF.
-
-* Increment counters
-    DATA: lv_byte_diff TYPE i.
-    ADD 1 TO minify_file_count.
-    lv_byte_diff = xstrlen( data_in ) - xstrlen( data_out ).
-    ADD lv_byte_diff TO minify_byte_count.
 
   ENDMETHOD.                    "minify
 
@@ -823,16 +835,16 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD minify_js.
 
-    DATA: lr_client TYPE REF TO if_http_client,
-          lv_code TYPE i,
+    DATA: lr_client  TYPE REF TO if_http_client,
+          lv_code    TYPE i,
           lt_ffields TYPE tihttpnvp,
-          lr_ffield TYPE REF TO ihttpnvp.
+          lr_ffield  TYPE REF TO ihttpnvp.
 
     DATA:
-          BEGIN OF json_response,
-            code TYPE string,
-            map TYPE string,
-          END OF json_response.
+      BEGIN OF json_response,
+        code TYPE string,
+        map  TYPE string,
+      END OF json_response.
 
     cl_http_client=>create_by_url(
       EXPORTING
@@ -855,44 +867,41 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
       lr_client->request->set_form_fields( lt_ffields ).
       lr_client->request->set_method( if_http_request=>co_request_method_post ).
 
-      lr_client->send( ).
-      lr_client->receive( ).
-      lr_client->response->get_status( IMPORTING code = lv_code ).
+      lr_client->send(
+        EXCEPTIONS
+          http_communication_failure = 1
+          http_invalid_state         = 2
+          http_processing_failed     = 3
+          http_invalid_timeout       = 4
+          OTHERS                     = 5 ).
+      IF sy-subrc <> 0.
+        enable_minify = abap_false.
+      ELSE.
+        lr_client->receive(
+          EXCEPTIONS
+            http_communication_failure = 1
+            http_invalid_state         = 2
+            http_processing_failed     = 3
+            OTHERS                     = 4 ).
+        IF sy-subrc <> 0.
+          enable_minify = abap_false.
+        ELSE.
+          lr_client->response->get_status( IMPORTING code = lv_code ).
+        ENDIF.
+      ENDIF.
 
       IF lv_code EQ 200.
-        DATA: json_doc TYPE REF TO zcl_json_document.
         TRY.
             zcl_json_document=>create_with_json(
               lr_client->response->get_cdata( )
               )->get_data( IMPORTING data = json_response ).
             data_out = string_to_xstring( json_response-code ).
-          CATCH zcx_json_document.
+          CATCH zcx_json_document ##NO_HANDLER.
         ENDTRY.
       ENDIF.
     ENDIF.
 
-    IF data_out IS INITIAL.
-      data_out = string_to_xstring( cleanup_stringdata( data_in = xstring_to_string( data_in ) ) ).
-    ENDIF.
-
-* Increment counters
-    DATA: lv_byte_diff TYPE i.
-    ADD 1 TO minify_file_count.
-    lv_byte_diff = xstrlen( data_in ) - xstrlen( data_out ).
-    ADD lv_byte_diff TO minify_byte_count.
-
   ENDMETHOD.                    "minify
-
-
-* <SIGNATURE>---------------------------------------------------------------------------------------+
-* | Instance Private Method YCL_GITHUB_DEPLOYER->RECALC_CACHEBUSTER
-* +-------------------------------------------------------------------------------------------------+
-* +--------------------------------------------------------------------------------------</SIGNATURE>
-METHOD recalc_cachebuster.
-
-  SUBMIT /ui5/update_cachebuster AND RETURN.
-
-ENDMETHOD.
 
 
 * <SIGNATURE>---------------------------------------------------------------------------------------+
@@ -903,9 +912,9 @@ ENDMETHOD.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD remove_cover_folder.
 
-    DATA: ls_file LIKE LINE OF archive->files,
+    DATA: ls_file    LIKE LINE OF archive->files,
           lv_content TYPE xstring,
-          lv_dummy TYPE string.
+          lv_dummy   TYPE string ##needed.
 
     CHECK archive IS BOUND.
 
@@ -952,24 +961,26 @@ ENDMETHOD.
 
 
 * <SIGNATURE>---------------------------------------------------------------------------------------+
-* | Instance Private Method YCL_GITHUB_DEPLOYER->SAVE_ZIP_FILE
+* | Instance Private Method YCL_GITHUB_DEPLOYER->SAVE_ARCHIVE_FILE
 * +-------------------------------------------------------------------------------------------------+
 * | [--->] ARCHIVE                        TYPE REF TO CL_ABAP_ZIP
 * +--------------------------------------------------------------------------------------</SIGNATURE>
-  METHOD save_zip_file.
+  METHOD save_archive_file.
 
-    DATA: lv_content    TYPE xstring,
-          fullpath      TYPE string,
-          filename      TYPE string,
-          path          TYPE string,
-          user_action   TYPE i,
-          encoding      TYPE abap_encoding,
-          length        TYPE i.
+    DATA: lv_content  TYPE xstring,
+          fullpath    TYPE string,
+          filename    TYPE string,
+          path        TYPE string,
+          user_action TYPE i,
+          encoding    TYPE abap_encoding,
+          length      TYPE i ##needed.
 
     DATA: BEGIN OF line_bin,
-             data(1024) TYPE x,
+            DATA(1024) TYPE x,
           END OF line_bin.
     DATA: data_tab_bin LIKE STANDARD TABLE OF line_bin.
+
+    CHECK test_only = abap_true.
 
     lv_content = archive->save( ).
 
@@ -1036,7 +1047,7 @@ ENDMETHOD.
         file_not_found          = 19
         dataprovider_exception  = 20
         control_flush_error     = 21
-        OTHERS                  = 22.
+        OTHERS                  = 22 ##FM_SUBRC_OK.
 
   ENDMETHOD.                    "save_zip_file
 
@@ -1059,25 +1070,74 @@ ENDMETHOD.
       EXCEPTIONS
         invalid_codepage = 1
         invalid_string   = 2
-        OTHERS           = 3.
+        OTHERS           = 3 ##FM_SUBRC_OK.
 
   ENDMETHOD.                    "STRING_TO_XSTRING
+
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Private Method YCL_GITHUB_DEPLOYER->UPDATE_CACHEBUSTER
+* +-------------------------------------------------------------------------------------------------+
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+  METHOD update_cachebuster.
+
+    DATA: lv_jobnumber TYPE          tbtcjob-jobcount,
+          lv_jobname   TYPE          tbtcjob-jobname VALUE 'UI5_CACHEBUSTER'.
+
+    CHECK test_only NE abap_true.
+
+    CALL FUNCTION 'JOB_OPEN'
+      EXPORTING
+        jobname          = lv_jobname
+      IMPORTING
+        jobcount         = lv_jobnumber
+      EXCEPTIONS
+        cant_create_job  = 1
+        invalid_job_data = 2
+        jobname_missing  = 3
+        OTHERS           = 4.
+
+    CHECK sy-subrc = 0.
+
+    SUBMIT /ui5/update_cachebuster
+      VIA JOB lv_jobname NUMBER lv_jobnumber AND RETURN.
+
+    CHECK sy-subrc = 0.
+
+    CALL FUNCTION 'JOB_CLOSE'
+      EXPORTING
+        jobcount             = lv_jobnumber
+        jobname              = lv_jobname
+        strtimmed            = 'X'
+      EXCEPTIONS
+        cant_start_immediate = 1
+        invalid_startdate    = 2
+        jobname_missing      = 3
+        job_close_failed     = 4
+        job_nosteps          = 5
+        job_notex            = 6
+        lock_failed          = 7
+        OTHERS               = 8 ##FM_SUBRC_OK.
+
+
+  ENDMETHOD.
 
 
 * <SIGNATURE>---------------------------------------------------------------------------------------+
 * | Instance Private Method YCL_GITHUB_DEPLOYER->UPLOAD_ARCHIVE_INTO_ICF
 * +-------------------------------------------------------------------------------------------------+
 * | [--->] ARCHIVE                        TYPE REF TO CL_ABAP_ZIP
+* | [!CX!] CX_SY_CREATE_DATA_ERROR
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD upload_archive_into_icf.
 
     DATA: lv_zip_file TYPE xstring.
 * Messages
-    DATA: lv_success TYPE char1,
-      lt_log_messages TYPE string_table,
-      lv_message TYPE string,
-      lv_msg_id TYPE sy-msgid,
-      lv_msg_no TYPE sy-msgno.
+    DATA: lv_success      TYPE char1,
+          lt_log_messages TYPE string_table,
+          lv_message      TYPE string,
+          lv_msg_id       TYPE sy-msgid,
+          lv_msg_no       TYPE sy-msgno.
 
     CHECK archive->files IS NOT INITIAL.
 
@@ -1094,34 +1154,40 @@ ENDMETHOD.
 
     CALL FUNCTION 'YUI5_REPOSITORY_LOAD_HTTP'
       EXPORTING
-        iv_url                     = ''
+        iv_url               = ''
 *       IV_SAPUI5_APPLICATION_NAME = ''
 *       IV_SAPUI5_APPLICATION_DESC = ''
-*       IV_PACKAGE                 = ''
-        iv_workbench_request       = me->transport
+*       IV_PACKAGE           = ''
+        iv_workbench_request = me->transport
 *       IV_EXTERNAL_CODE_PAGE      = ''
 *       IV_ACCEPT_UNIX_STYLE_EOL   = 'X'
-*       IV_DELTA_MODE              = '-'
-        iv_test_mode               = me->test_only
-        iv_zip_file                = lv_zip_file
+*       IV_DELTA_MODE        = '-'
+        iv_test_mode         = me->test_only
+        iv_zip_file          = lv_zip_file
       IMPORTING
-        ev_success                 = lv_success
-        ev_log_messages            = lt_log_messages
-        ev_msg_id                  = lv_msg_id
-        ev_msg_no                  = lv_msg_no.
+        ev_success           = lv_success
+        ev_log_messages      = lt_log_messages
+        ev_msg_id            = lv_msg_id
+        ev_msg_no            = lv_msg_no.
 
     MESSAGE ID lv_msg_id TYPE lv_success NUMBER lv_msg_no INTO lv_message.
-    CASE lv_success.
-      WHEN 'S'.
-        WRITE:/, lv_message COLOR COL_POSITIVE.
-      WHEN 'W'.
-        WRITE:/, lv_message COLOR COL_GROUP.
-      WHEN OTHERS.
-        WRITE:/, lv_message COLOR COL_NEGATIVE.
-    ENDCASE.
     LOOP AT lt_log_messages INTO lv_message.
       WRITE:/, lv_message.
     ENDLOOP.
+    CASE lv_success.
+      WHEN 'S'.
+        WRITE:/, 'Success' COLOR COL_POSITIVE, lv_message COLOR COL_POSITIVE.
+      WHEN 'W'.
+        WRITE:/, 'Warning' COLOR COL_GROUP, lv_message COLOR COL_GROUP.
+      WHEN OTHERS.
+        WRITE:/, 'Error' COLOR COL_NEGATIVE, lv_message COLOR COL_NEGATIVE.
+        RAISE EXCEPTION TYPE cx_sy_create_data_error "Just any old exception to signal failure
+          EXPORTING
+            textid = cx_sy_create_data_error=>generic_type
+*           previous = previous
+*           typename = typename
+          .
+    ENDCASE.
 
   ENDMETHOD.                    "load_archive
 
@@ -1137,10 +1203,10 @@ ENDMETHOD.
     CALL FUNCTION 'HR_KR_XSTRING_TO_STRING'
       EXPORTING
 *       FROM_CODEPAGE = '8500'
-        in_xstring    = in
-*       OUT_LEN       = OUT_LEN
+        in_xstring = in
+*       OUT_LEN    = OUT_LEN
       IMPORTING
-        out_string    = out.
+        out_string = out.
 
   ENDMETHOD.                    "XSTRING_TO_STRING
 ENDCLASS.

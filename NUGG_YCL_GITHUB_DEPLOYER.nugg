@@ -1,0 +1,1030 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nugget name="YCL_GITHUB_DEPLOYER">
+ <CLAS CLSNAME="YCL_GITHUB_DEPLOYER" VERSION="1" LANGU="E" DESCRIPT="GitHub UI5 App Deployer Class" CATEGORY="00" EXPOSURE="0" STATE="1" RELEASE="0" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X" CLSBCCAT="00" DURATION_TYPE="0 " RISK_LEVEL="0 ">
+  <types CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="SUBMODULE_INFO_TYPE" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="1 " TYPTYPE="4" SRCROW1="4 " SRCCOLUMN1="6 " SRCROW2="8 " SRCCOLUMN2="31 " TYPESRC_LENG="164 " TYPESRC="BEGIN OF submodule_info_type,
+        folder     TYPE string,
+        repository TYPE string,
+        branch     TYPE string,
+      END OF submodule_info_type
+"/>
+  <types CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="SUBMODULE_INFO_TTYPE" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="2 " TYPTYPE="4" SRCROW1="10 " SRCCOLUMN1="6 " SRCROW2="10 " SRCCOLUMN2="68 " TYPESRC_LENG="65 " TYPESRC="submodule_info_ttype TYPE STANDARD TABLE OF submodule_info_type
+"/>
+  <localImplementation>*&quot;* use this source file for the definition and implementation of
+*&quot;* local helper classes, interface definitions and type
+*&quot;* declarations</localImplementation>
+  <localTypes>*&quot;* use this source file for any type of declarations (class
+*&quot;* definitions, interfaces or type declarations) you need for
+*&quot;* components in the private section</localTypes>
+  <localMacros>*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</localMacros>
+  <attribute CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="BRANCH" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="2 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="STRING" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="ENABLE_MINIFY" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="9 " ATTDECLTYP="0" ATTVALUE="ABAP_TRUE" ATTEXPVIRT="0" TYPTYPE="1" TYPE="BOOLEAN" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="GITHUB_USER" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="5 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="STRING" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="MINIFY_BYTE_COUNT" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="8 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="I" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="MINIFY_FILE_COUNT" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="7 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="I" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="PASSWORD" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="6 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="STRING" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="REPOSITORY" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="1 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="STRING" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="TEST_ONLY" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="4 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="BOOLEAN" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="TRANSPORT" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="3 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="TRKORR" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <method CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="ADD_MODULE_TO_ARCHIVE" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="2 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="ADD_MODULE_TO_ARCHIVE" SCONAME="INFO" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="SUBMODULE_INFO_TYPE"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="ADD_MODULE_TO_ARCHIVE" SCONAME="ARCHIVE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="3" TYPE="CL_ABAP_ZIP"/>
+   <source>METHOD add_module_to_archive.
+
+    DATA: lo_archive           TYPE REF TO cl_abap_zip,
+          ls_file              LIKE LINE OF archive-&gt;files,
+          lv_content           TYPE xstring,
+          lv_cdata             TYPE string,
+          lv_preload_namespace TYPE string,
+          lt_preload_modules   TYPE tihttpnvp,
+          lr_preload_module    TYPE REF TO ihttpnvp,
+          lv_component         TYPE string,
+          lv_junk              TYPE string ##needed.
+
+    WRITE:/, `Adding module`, info-repository, info-branch, &apos;to archive&apos;.
+
+    lo_archive = remove_cover_folder( get_module_archive(
+        url      = |http://github.com/{ info-repository }/zipball/{ info-branch }|
+        user     = me-&gt;github_user
+        password = me-&gt;password ) ).
+
+    IF lo_archive IS NOT BOUND.
+      WRITE:/, `Error with module`, info-repository, info-branch COLOR COL_NEGATIVE.
+      RETURN.
+    ENDIF.
+
+* Get Component-preload namespace
+    READ TABLE lo_archive-&gt;files INTO ls_file WITH KEY name = &apos;Component.js&apos;.
+    IF sy-subrc = 0.
+      lo_archive-&gt;get(
+        EXPORTING
+          name = ls_file-name
+        IMPORTING
+          content = lv_content
+        EXCEPTIONS
+          zip_index_error = 1
+          zip_decompression_error = 2
+          OTHERS = 3 ).
+      IF sy-subrc = 0.
+        lv_component = xstring_to_string( lv_content ).
+        SPLIT lv_component AT `.extend(` INTO lv_junk lv_component.
+        IF sy-subrc = 0.
+          SHIFT lv_component LEFT DELETING LEADING: `&apos;`, `&quot;`.
+          SPLIT lv_component AT `.Component` INTO lv_preload_namespace lv_junk.
+          REPLACE ALL OCCURRENCES OF `.` IN lv_preload_namespace WITH `/`.
+          WRITE: /, &apos;Preload component namespace is&apos;, lv_preload_namespace.
+        ENDIF.
+      ENDIF.
+    ENDIF.
+
+    LOOP AT lo_archive-&gt;files INTO ls_file.
+      CLEAR lv_content.
+      lo_archive-&gt;get(
+        EXPORTING
+          name = ls_file-name
+        IMPORTING
+          content = lv_content
+        EXCEPTIONS
+          zip_index_error = 1
+          zip_decompression_error = 2
+          OTHERS = 3 ).
+
+      IF sy-subrc &lt;&gt; 0.
+        MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+        WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+        RETURN.
+      ENDIF.
+
+* Minification
+      IF enable_minify = abap_true.
+
+        lv_content = minify(
+            data_in   = lv_content
+            file_type = get_file_type( ls_file-name ) ).
+
+* Collect details for Component.preload - not much point doing this unless minification works
+        IF lv_preload_namespace IS NOT INITIAL.
+          CASE get_file_type( ls_file-name ).
+            WHEN &apos;JS&apos;.
+              APPEND INITIAL LINE TO lt_preload_modules REFERENCE INTO lr_preload_module.
+              lr_preload_module-&gt;name = |{ lv_preload_namespace }/{ ls_file-name }|.
+              lr_preload_module-&gt;value = xstring_to_string( lv_content ).
+            WHEN &apos;XML&apos;.
+              IF ls_file-name CS &apos;.view.xml&apos;.
+                APPEND INITIAL LINE TO lt_preload_modules REFERENCE INTO lr_preload_module.
+                lr_preload_module-&gt;name = |{ lv_preload_namespace }/{ ls_file-name }|.
+                lr_preload_module-&gt;value =  me-&gt;cleanup_xmldata( xstring_to_string( lv_content ) ).
+              ENDIF.
+            WHEN &apos;PROPERTIES&apos;.
+              APPEND INITIAL LINE TO lt_preload_modules REFERENCE INTO lr_preload_module.
+              lr_preload_module-&gt;name = |{ lv_preload_namespace }/{ ls_file-name }|.
+              lr_preload_module-&gt;value =  me-&gt;cleanup_xmldata( xstring_to_string( lv_content ) ).
+            WHEN OTHERS.
+          ENDCASE.
+        ENDIF.
+      ENDIF.
+
+      IF info-folder IS NOT INITIAL.
+        ls_file-name = |{ info-folder }/{ ls_file-name }|.
+      ENDIF.
+
+* Process any Git submodules
+      DATA: lt_submodule_info TYPE submodule_info_ttype,
+            lr_submodule_info TYPE REF TO submodule_info_type.
+      IF ls_file-name = &apos;.gitmodules&apos;.
+        get_submodule_info(
+          EXPORTING
+            iv_submodule_data = lv_content
+          IMPORTING
+            et_submodule_info = lt_submodule_info ).
+
+        LOOP AT lt_submodule_info REFERENCE INTO lr_submodule_info.
+          add_module_to_archive(
+            info    = lr_submodule_info-&gt;*
+            archive = archive ).
+        ENDLOOP.
+      ENDIF.
+
+      archive-&gt;add(
+        EXPORTING
+          name = ls_file-name
+          content = lv_content ).
+    ENDLOOP.
+
+* Build Component.preload and add to archive
+    IF lv_preload_namespace IS NOT INITIAL AND enable_minify = abap_true.
+      LOOP AT lt_preload_modules REFERENCE INTO lr_preload_module.
+        REPLACE ALL OCCURRENCES OF `&quot;` IN lr_preload_module-&gt;value WITH `\&quot;`.
+        IF lv_cdata IS INITIAL.
+          lv_cdata = |&quot;{ lr_preload_module-&gt;name }&quot;:&quot;{ lr_preload_module-&gt;value }&quot;|.
+        ELSE.
+          lv_cdata = |{ lv_cdata },&quot;{ lr_preload_module-&gt;name }&quot;:&quot;{ lr_preload_module-&gt;value }&quot;|.
+        ENDIF.
+      ENDLOOP.
+      lv_cdata =
+        |jQuery.sap.registerPreloadedModules(\{| &amp;&amp;
+        |&quot;version&quot;: &quot;2.0&quot;,| &amp;&amp;
+        |&quot;name&quot;: &quot;{ lv_preload_namespace }/Component-preload&quot;,| &amp;&amp;
+        |&quot;modules&quot;: \{| &amp;&amp;
+        lv_cdata &amp;&amp;
+        |\}| &amp;&amp;
+        |\});|.
+      archive-&gt;add(
+        EXPORTING
+          name = &apos;Component-preload.js&apos;
+          content = string_to_xstring( lv_cdata ) ).
+    ENDIF.
+
+  ENDMETHOD.                    &quot;add_module_to_archive</source>
+  </method>
+  <method CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="CLEANUP_STRINGDATA" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="3 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="CLEANUP_STRINGDATA" SCONAME="DATA_IN" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="CLEANUP_STRINGDATA" SCONAME="NOGAPS" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="BOOLEAN" PAROPTIONL="X"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="CLEANUP_STRINGDATA" SCONAME="DATA_OUT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="3 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="STRING"/>
+   <source>METHOD cleanup_stringdata.
+
+    CONSTANTS: lf  TYPE x LENGTH 4 VALUE &apos;0A&apos;,
+               cr  TYPE x LENGTH 4 VALUE &apos;0D&apos;,
+               tab TYPE x LENGTH 4 VALUE &apos;09&apos;,
+               spc TYPE x LENGTH 4 VALUE &apos;20&apos;.
+
+    FIELD-SYMBOLS: &lt;lf&gt;    TYPE char1,
+                   &lt;cr&gt;    TYPE char1,
+                   &lt;tab&gt;   TYPE char1,
+                   &lt;space&gt; TYPE char1.
+
+    ASSIGN lf   TO &lt;lf&gt;     CASTING.
+    ASSIGN cr   TO &lt;cr&gt;     CASTING.
+    ASSIGN tab  TO &lt;tab&gt;    CASTING.
+    ASSIGN spc  TO &lt;space&gt;  CASTING.
+
+    data_out = data_in.
+
+* Remove line feeds
+    REPLACE ALL OCCURRENCES OF &lt;lf&gt; IN data_out WITH &apos;&apos;.
+* Remove carriage returns
+    REPLACE ALL OCCURRENCES OF &lt;cr&gt; IN data_out WITH &apos;&apos;.
+* Replace tabs with space
+    REPLACE ALL OCCURRENCES OF &lt;tab&gt; IN data_out WITH &lt;space&gt;.
+
+    IF nogaps = abap_true.
+      CONDENSE data_out NO-GAPS.
+    ELSE.
+      CONDENSE data_out.
+    ENDIF.
+
+  ENDMETHOD.                    &quot;minify</source>
+  </method>
+  <method CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="CLEANUP_XMLDATA" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="4 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="CLEANUP_XMLDATA" SCONAME="DATA_IN" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="CLEANUP_XMLDATA" SCONAME="DATA_OUT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="STRING"/>
+   <source>METHOD cleanup_xmldata.
+
+    CONSTANTS: lf  TYPE x LENGTH 4 VALUE &apos;0A&apos;,
+               cr  TYPE x LENGTH 4 VALUE &apos;0D&apos;,
+               tab TYPE x LENGTH 4 VALUE &apos;09&apos;,
+               spc TYPE x LENGTH 4 VALUE &apos;20&apos;.
+
+    FIELD-SYMBOLS: &lt;lf&gt;    TYPE char1,
+                   &lt;cr&gt;    TYPE char1,
+                   &lt;tab&gt;   TYPE char1,
+                   &lt;space&gt; TYPE char1.
+
+    ASSIGN lf   TO &lt;lf&gt;     CASTING.
+    ASSIGN cr   TO &lt;cr&gt;     CASTING.
+    ASSIGN tab  TO &lt;tab&gt;    CASTING.
+    ASSIGN spc  TO &lt;space&gt;  CASTING.
+
+    data_out = data_in.
+
+* Replace tabs with \t
+    REPLACE ALL OCCURRENCES OF cl_abap_char_utilities=&gt;horizontal_tab IN data_out WITH &apos;\t&apos;.
+* Replace newlines with \n
+    REPLACE ALL OCCURRENCES OF cl_abap_char_utilities=&gt;newline IN data_out WITH &apos;\n&apos;.
+* Remove all spaces that immediately follow a new line - hope there are none inside XML data ;)
+    DO.
+      REPLACE ALL OCCURRENCES OF `\n ` IN data_out WITH `\n`.
+      IF sy-subrc NE 0 OR sy-index &gt; 500. EXIT. ENDIF.
+    ENDDO.
+
+* Remove line feeds - should be none left
+    REPLACE ALL OCCURRENCES OF &lt;lf&gt; IN data_out WITH &apos;&apos;.
+* Remove carriage returns
+    REPLACE ALL OCCURRENCES OF &lt;cr&gt; IN data_out WITH &apos;&apos;.
+
+  ENDMETHOD.                    &quot;minify</source>
+  </method>
+  <method CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="CONSTRUCTOR" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="1 " DISPID="0 " MTDTYPE="2" MTDDECLTYP="0" MTDNEWEXC="X" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="CONSTRUCTOR" SCONAME="REPOSITORY" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="CONSTRUCTOR" SCONAME="BRANCH" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="2 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="CONSTRUCTOR" SCONAME="GITHUB_USER" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="3 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING" PAROPTIONL="X"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="CONSTRUCTOR" SCONAME="PASSWORD" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="4 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING" PAROPTIONL="X"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="CONSTRUCTOR" SCONAME="TRANSPORT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="5 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="TRKORR" PAROPTIONL="X"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="CONSTRUCTOR" SCONAME="TEST_ONLY" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="6 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="BOOLEAN" PAROPTIONL="X"/>
+   <exception CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="CONSTRUCTOR" SCONAME="CX_SY_CREATE_DATA_ERROR" VERSION="1" LANGU="E" DESCRIPT="System Exception Involving Data Without Object Creation" MTDTYPE="2" EDITORDER="1 "/>
+   <source>METHOD constructor.
+
+    me-&gt;repository = repository.
+    me-&gt;branch = branch.
+    me-&gt;github_user = github_user.
+    me-&gt;password = password.
+    me-&gt;transport = transport.
+    me-&gt;test_only = test_only.
+
+    DATA: lo_archive TYPE REF TO cl_abap_zip,
+          ls_module  TYPE submodule_info_type.
+
+    ls_module-repository = me-&gt;repository.
+    ls_module-branch = me-&gt;branch.
+
+    CREATE OBJECT lo_archive.
+
+    add_module_to_archive(
+      info    = ls_module
+      archive = lo_archive ).
+
+    save_archive_file( lo_archive ).
+
+    upload_archive_into_icf( lo_archive ).
+
+    update_cachebuster( ).
+
+  ENDMETHOD.                    &quot;constructor</source>
+  </method>
+  <method CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="DEPLOY" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="1 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="1" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="DEPLOY" SCONAME="REPOSITORY" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="DEPLOY" SCONAME="BRANCH" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="DEPLOY" SCONAME="GITHUB_USER" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="3 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING" PAROPTIONL="X"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="DEPLOY" SCONAME="PASSWORD" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="4 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING" PAROPTIONL="X"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="DEPLOY" SCONAME="TRANSPORT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="5 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="TRKORR" PAROPTIONL="X"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="DEPLOY" SCONAME="TEST_ONLY" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="6 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="BOOLEAN" PAROPTIONL="X"/>
+   <source>METHOD deploy.
+    DATA: deployer TYPE REF TO ycl_github_deployer.
+
+    CREATE OBJECT deployer
+      EXPORTING
+        repository  = repository
+        branch      = branch
+        github_user = github_user
+        password    = password
+        transport   = transport
+        test_only   = test_only.
+
+  ENDMETHOD.                    &quot;deploy</source>
+  </method>
+  <method CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="GET_CSS_MINIFY_PARAMS" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="6 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="GET_CSS_MINIFY_PARAMS" SCONAME="RT_PARAMS" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="TIHTTPNVP"/>
+   <source>METHOD get_css_minify_params.
+
+    DATA: lr_param TYPE REF TO ihttpnvp.
+
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;type&apos;.
+    lr_param-&gt;value = &apos;css&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[advanced]&apos;.
+    lr_param-&gt;value = &apos;true&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[aggressiveMerging]&apos;.
+    lr_param-&gt;value = &apos;true&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[rebase]&apos;.
+    lr_param-&gt;value = &apos;true&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[processImport]&apos;.
+    lr_param-&gt;value = &apos;true&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[benchmark]&apos;.
+    lr_param-&gt;value = &apos;false&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[compatibility]&apos;.
+    lr_param-&gt;value = &apos;false&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[keepBreaks]&apos;.
+    lr_param-&gt;value = &apos;false&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[debug]&apos;.
+    lr_param-&gt;value = &apos;false&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[inliner]&apos;.
+    lr_param-&gt;value = &apos;&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[relativeTo]&apos;.
+    lr_param-&gt;value = &apos;&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[root]&apos;.
+    lr_param-&gt;value = &apos;&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[target]&apos;.
+    lr_param-&gt;value = &apos;&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[keepSpecialComments]&apos;.
+    lr_param-&gt;value = &apos;*&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[roundingPrecision]&apos;.
+    lr_param-&gt;value = &apos;2&apos;.
+
+  ENDMETHOD.                    &quot;get_css_minify_params</source>
+  </method>
+  <method CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="GET_FILE_TYPE" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="5 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="GET_FILE_TYPE" SCONAME="IV_FILENAME" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="GET_FILE_TYPE" SCONAME="RV_FILETYPE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="STRING"/>
+   <source>METHOD get_file_type.
+    DATA: lt_strings   TYPE stringtab,
+          lr_extension TYPE REF TO string.
+
+    SPLIT iv_filename AT &apos;.&apos; INTO TABLE lt_strings.
+
+    LOOP AT lt_strings REFERENCE INTO lr_extension. ENDLOOP.
+    CHECK sy-subrc = 0.
+
+    TRANSLATE lr_extension-&gt;* TO UPPER CASE.
+
+    rv_filetype = lr_extension-&gt;*.
+
+  ENDMETHOD.                    &quot;GET_FILE_TYPE</source>
+  </method>
+  <method CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="GET_JS_MINIFY_PARAMS" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="7 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="GET_JS_MINIFY_PARAMS" SCONAME="RT_PARAMS" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="TIHTTPNVP"/>
+   <source>METHOD get_js_minify_params.
+    DATA: lr_param TYPE REF TO ihttpnvp.
+
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;type&apos;.
+    lr_param-&gt;value = &apos;javascript&apos;.
+
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[sequences]&apos;.
+    lr_param-&gt;value = &apos;true&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[properties]&apos;.
+    lr_param-&gt;value = &apos;true&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[dead_code]&apos;.
+    lr_param-&gt;value = &apos;true&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[drop_debugger]&apos;.
+    lr_param-&gt;value = &apos;true&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[conditionals]&apos;.
+    lr_param-&gt;value = &apos;true&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[comparisons]&apos;.
+    lr_param-&gt;value = &apos;true&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[evaluate]&apos;.
+    lr_param-&gt;value = &apos;true&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[booleans]&apos;.
+    lr_param-&gt;value = &apos;true&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[loops]&apos;.
+    lr_param-&gt;value = &apos;true&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[unused]&apos;.
+    lr_param-&gt;value = &apos;true&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[hoist_funs]&apos;.
+    lr_param-&gt;value = &apos;true&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[if_return]&apos;.
+    lr_param-&gt;value = &apos;true&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[join_vars]&apos;.
+    lr_param-&gt;value = &apos;true&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[cascade]&apos;.
+    lr_param-&gt;value = &apos;true&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[warnings]&apos;.
+    lr_param-&gt;value = &apos;true&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[negate_iife]&apos;.
+    lr_param-&gt;value = &apos;true&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[unsafe]&apos;.
+    lr_param-&gt;value = &apos;false&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[hoist_vars]&apos;.
+    lr_param-&gt;value = &apos;false&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[pure_getters]&apos;.
+    lr_param-&gt;value = &apos;false&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[drop_console]&apos;.
+    lr_param-&gt;value = &apos;false&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[keep_fargs]&apos;.
+    lr_param-&gt;value = &apos;false&apos;.
+    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
+    lr_param-&gt;name = &apos;options[pure_funcs]&apos;.
+    lr_param-&gt;value = &apos;&apos;.
+
+  ENDMETHOD.                    &quot;GET_JS_MINIFY_PARAMS</source>
+  </method>
+  <method CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="GET_MODULE_ARCHIVE" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="8 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="GET_MODULE_ARCHIVE" SCONAME="URL" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="GET_MODULE_ARCHIVE" SCONAME="USER" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="GET_MODULE_ARCHIVE" SCONAME="PASSWORD" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="3 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="GET_MODULE_ARCHIVE" SCONAME="ARCHIVE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="4 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="3" TYPE="CL_ABAP_ZIP"/>
+   <source>METHOD get_module_archive.
+
+    DATA: lr_client  TYPE REF TO if_http_client,
+          lv_code    TYPE i,
+          lv_message TYPE string.
+
+    WRITE:/, `Retrieving archive from`, url.
+
+    cl_http_client=&gt;create_by_url(
+      EXPORTING
+        url = url
+      IMPORTING
+        client = lr_client
+      EXCEPTIONS
+        OTHERS = 1 ).
+
+    IF sy-subrc &lt;&gt; 0.
+      MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+      WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+      RETURN.
+    ENDIF.
+
+    IF user IS NOT INITIAL.
+      lr_client-&gt;authenticate( username = user password = password ).
+      lr_client-&gt;propertytype_accept_cookie = if_http_client=&gt;co_enabled.
+    ENDIF.
+
+    lr_client-&gt;send( EXCEPTIONS OTHERS = 1 ).
+    IF sy-subrc &lt;&gt; 0.
+      lv_message = |http send error|.
+      WRITE:/, lv_message COLOR COL_NEGATIVE.
+      MESSAGE lv_message TYPE &apos;E&apos; DISPLAY LIKE &apos;I&apos;.
+      RETURN.
+    ENDIF.
+    lr_client-&gt;receive( EXCEPTIONS OTHERS = 1 ).
+    IF sy-subrc &lt;&gt; 0.
+      lv_message = |http receive error|.
+      WRITE:/, lv_message COLOR COL_NEGATIVE.
+      MESSAGE lv_message TYPE &apos;E&apos; DISPLAY LIKE &apos;I&apos;.
+      RETURN.
+    ENDIF.
+
+    lr_client-&gt;response-&gt;get_status( IMPORTING code = lv_code ).
+
+    IF lv_code NE 200.
+      IF lv_message IS INITIAL.
+        lv_message = |HTTP Return Code is { lv_code }|.
+      ENDIF.
+      MESSAGE lv_message TYPE &apos;E&apos; DISPLAY LIKE &apos;I&apos;.
+      RETURN.
+    ENDIF.
+
+    CREATE OBJECT archive.
+
+    archive-&gt;load(
+      EXPORTING
+            zip = lr_client-&gt;response-&gt;get_data( )
+      EXCEPTIONS
+        zip_parse_error = 1
+        OTHERS = 2 ).
+
+    IF sy-subrc &lt;&gt; 0.
+      MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+      WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+      RETURN.
+    ENDIF.
+
+  ENDMETHOD.                    &quot;get_archive</source>
+  </method>
+  <method CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="GET_SUBMODULE_INFO" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="9 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="GET_SUBMODULE_INFO" SCONAME="IV_SUBMODULE_DATA" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="XSTRING"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="GET_SUBMODULE_INFO" SCONAME="ET_SUBMODULE_INFO" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="1" PARPASSTYP="0" TYPTYPE="1" TYPE="SUBMODULE_INFO_TTYPE"/>
+   <source>METHOD get_submodule_info.
+
+    DATA: lv_gitmodules TYPE string,
+          lt_gitmodules TYPE stringtab,
+          lr_string     TYPE REF TO string,
+          lv_junk1      TYPE string ##needed,
+          lv_junk2      TYPE string ##needed,
+          lr_url        TYPE REF TO string,
+          lr_path       TYPE REF TO string ##needed,
+          ls_submodule  TYPE submodule_info_type.
+
+    CONSTANTS: lf  TYPE x LENGTH 4 VALUE &apos;0A00&apos;.
+    FIELD-SYMBOLS: &lt;lf&gt; TYPE char1.
+    ASSIGN lf TO &lt;lf&gt; CASTING.
+
+    lv_gitmodules = xstring_to_string( iv_submodule_data ).
+
+    SPLIT lv_gitmodules AT &lt;lf&gt; INTO TABLE lt_gitmodules.
+
+    LOOP AT lt_gitmodules REFERENCE INTO lr_string.
+      lr_string-&gt;* = cleanup_stringdata( data_in = lr_string-&gt;* nogaps = abap_true ).
+      CHECK lr_string-&gt;* CS &apos;submodule&apos;.
+      CLEAR ls_submodule.
+      SPLIT lr_string-&gt;* AT &apos;&quot;&apos; INTO lv_junk1 ls_submodule-folder lv_junk2.
+      READ TABLE lt_gitmodules REFERENCE INTO lr_path INDEX ( sy-tabix + 1 ).
+      CHECK sy-subrc = 0.
+      ls_submodule-branch = &apos;master&apos;. &quot;For submodules we always grab master branch
+      READ TABLE lt_gitmodules REFERENCE INTO lr_url INDEX ( sy-tabix + 1 ).
+      CHECK sy-subrc = 0.
+      SPLIT lr_url-&gt;* AT `url = https://github.com/` INTO lv_junk1 ls_submodule-repository.
+      APPEND ls_submodule TO et_submodule_info.
+    ENDLOOP.
+
+  ENDMETHOD.                    &quot;GET_SUBMODULE_INFO</source>
+  </method>
+  <method CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="MINIFY" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="10 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="MINIFY" SCONAME="DATA_IN" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="XSTRING"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="MINIFY" SCONAME="FILE_TYPE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="MINIFY" SCONAME="DATA_OUT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="3 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="XSTRING"/>
+   <source>METHOD minify.
+
+    CASE file_type.
+      WHEN &apos;JS&apos;.
+        data_out = minify_js( data_in ).
+      WHEN &apos;CSS&apos;.
+        data_out = minify_css( data_in ).
+      WHEN OTHERS.
+    ENDCASE.
+
+    IF data_out IS INITIAL. &quot;If minification failed just return unchanged data
+      data_out = data_in.
+    ENDIF.
+
+* Increment counters
+    ADD 1 TO minify_file_count.
+    minify_byte_count = minify_byte_count + xstrlen( data_in ) - xstrlen( data_out ).
+
+  ENDMETHOD.                    &quot;minify</source>
+  </method>
+  <method CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="MINIFY_CSS" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="12 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="MINIFY_CSS" SCONAME="DATA_IN" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="XSTRING"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="MINIFY_CSS" SCONAME="DATA_OUT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="XSTRING"/>
+   <source>METHOD minify_css.
+
+    DATA: lr_client  TYPE REF TO if_http_client,
+          lv_code    TYPE i,
+          lt_ffields TYPE tihttpnvp,
+          lr_ffield  TYPE REF TO ihttpnvp.
+
+    DATA: BEGIN OF json_response,
+            code TYPE string,
+            map  TYPE string,
+          END OF json_response.
+
+    cl_http_client=&gt;create_by_url(
+      EXPORTING
+        url = &apos;http://refresh-sf.herokuapp.com/css/&apos; &quot;See http://refresh-sf.com/ for details
+      IMPORTING
+        client = lr_client
+      EXCEPTIONS
+        argument_not_found = 1
+        plugin_not_active = 2
+        internal_error = 3
+        OTHERS = 4 ).
+
+    IF sy-subrc = 0.
+      lt_ffields = get_css_minify_params( ).
+
+      APPEND INITIAL LINE TO lt_ffields REFERENCE INTO lr_ffield.
+      lr_ffield-&gt;name = &apos;code&apos;.
+      lr_ffield-&gt;value = xstring_to_string( data_in ).
+
+      lr_client-&gt;request-&gt;set_form_fields( lt_ffields ).
+      lr_client-&gt;request-&gt;set_method( if_http_request=&gt;co_request_method_post ).
+
+      lr_client-&gt;send(
+        EXCEPTIONS
+          http_communication_failure = 1
+          http_invalid_state         = 2
+          http_processing_failed     = 3
+          http_invalid_timeout       = 4
+          OTHERS                     = 5 ).
+      IF sy-subrc &lt;&gt; 0.
+        enable_minify = abap_false.
+      ELSE.
+        lr_client-&gt;receive(
+          EXCEPTIONS
+            http_communication_failure = 1
+            http_invalid_state         = 2
+            http_processing_failed     = 3
+            OTHERS                     = 4 ).
+        IF sy-subrc &lt;&gt; 0.
+          enable_minify = abap_false.
+        ELSE.
+          lr_client-&gt;response-&gt;get_status( IMPORTING code = lv_code ).
+        ENDIF.
+      ENDIF.
+
+      IF lv_code EQ 200.
+        TRY.
+            zcl_json_document=&gt;create_with_json(
+              lr_client-&gt;response-&gt;get_cdata( )
+              )-&gt;get_data( IMPORTING data = json_response ).
+            data_out = string_to_xstring( json_response-code ).
+          CATCH zcx_json_document ##NO_HANDLER.
+        ENDTRY.
+      ENDIF.
+    ENDIF.
+
+  ENDMETHOD.                    &quot;minify</source>
+  </method>
+  <method CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="MINIFY_JS" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="11 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="MINIFY_JS" SCONAME="DATA_IN" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="XSTRING"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="MINIFY_JS" SCONAME="DATA_OUT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="XSTRING"/>
+   <source>METHOD minify_js.
+
+    DATA: lr_client  TYPE REF TO if_http_client,
+          lv_code    TYPE i,
+          lt_ffields TYPE tihttpnvp,
+          lr_ffield  TYPE REF TO ihttpnvp.
+
+    DATA:
+      BEGIN OF json_response,
+        code TYPE string,
+        map  TYPE string,
+      END OF json_response.
+
+    cl_http_client=&gt;create_by_url(
+      EXPORTING
+        url = &apos;http://refresh-sf.herokuapp.com/javascript/&apos; &quot;See http://refresh-sf.com/ for details
+      IMPORTING
+        client = lr_client
+      EXCEPTIONS
+        argument_not_found = 1
+        plugin_not_active = 2
+        internal_error = 3
+        OTHERS = 4 ).
+
+    IF sy-subrc = 0.
+      lt_ffields = get_js_minify_params( ).
+
+      APPEND INITIAL LINE TO lt_ffields REFERENCE INTO lr_ffield.
+      lr_ffield-&gt;name = &apos;code&apos;.
+      lr_ffield-&gt;value = xstring_to_string( data_in ).
+
+      lr_client-&gt;request-&gt;set_form_fields( lt_ffields ).
+      lr_client-&gt;request-&gt;set_method( if_http_request=&gt;co_request_method_post ).
+
+      lr_client-&gt;send(
+        EXCEPTIONS
+          http_communication_failure = 1
+          http_invalid_state         = 2
+          http_processing_failed     = 3
+          http_invalid_timeout       = 4
+          OTHERS                     = 5 ).
+      IF sy-subrc &lt;&gt; 0.
+        enable_minify = abap_false.
+      ELSE.
+        lr_client-&gt;receive(
+          EXCEPTIONS
+            http_communication_failure = 1
+            http_invalid_state         = 2
+            http_processing_failed     = 3
+            OTHERS                     = 4 ).
+        IF sy-subrc &lt;&gt; 0.
+          enable_minify = abap_false.
+        ELSE.
+          lr_client-&gt;response-&gt;get_status( IMPORTING code = lv_code ).
+        ENDIF.
+      ENDIF.
+
+      IF lv_code EQ 200.
+        TRY.
+            zcl_json_document=&gt;create_with_json(
+              lr_client-&gt;response-&gt;get_cdata( )
+              )-&gt;get_data( IMPORTING data = json_response ).
+            data_out = string_to_xstring( json_response-code ).
+          CATCH zcx_json_document ##NO_HANDLER.
+        ENDTRY.
+      ENDIF.
+    ENDIF.
+
+  ENDMETHOD.                    &quot;minify</source>
+  </method>
+  <method CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="REMOVE_COVER_FOLDER" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="13 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="REMOVE_COVER_FOLDER" SCONAME="ARCHIVE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="3" TYPE="CL_ABAP_ZIP"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="REMOVE_COVER_FOLDER" SCONAME="NEW_ARCHIVE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="3" TYPE="CL_ABAP_ZIP"/>
+   <source>METHOD remove_cover_folder.
+
+    DATA: ls_file    LIKE LINE OF archive-&gt;files,
+          lv_content TYPE xstring,
+          lv_dummy   TYPE string ##needed.
+
+    CHECK archive IS BOUND.
+
+    IF lines( archive-&gt;files ) = 0.
+      WRITE:/, &apos;No files in archive&apos;.
+      RETURN.
+    ENDIF.
+
+    CREATE OBJECT new_archive.
+
+    LOOP AT archive-&gt;files INTO ls_file.
+      CLEAR lv_content.
+      archive-&gt;get(
+        EXPORTING
+          name = ls_file-name
+        IMPORTING
+          content = lv_content
+        EXCEPTIONS
+          zip_index_error = 1
+          zip_decompression_error = 2
+          OTHERS = 3 ).
+
+      IF sy-subrc &lt;&gt; 0.
+        MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+        WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+        RETURN.
+      ENDIF.
+
+      IF ls_file-name CA &apos;/&apos;.
+        SPLIT ls_file-name AT &apos;/&apos; INTO lv_dummy ls_file-name.
+      ELSE.
+        SPLIT ls_file-name AT &apos;\&apos; INTO lv_dummy ls_file-name.
+      ENDIF.
+      IF ls_file-name IS INITIAL.
+        CONTINUE.
+      ENDIF.
+      new_archive-&gt;add(
+        EXPORTING
+          name = ls_file-name
+          content = lv_content ).
+    ENDLOOP.
+
+  ENDMETHOD.                    &quot;remove_cover_folder</source>
+  </method>
+  <method CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="SAVE_ARCHIVE_FILE" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="14 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="SAVE_ARCHIVE_FILE" SCONAME="ARCHIVE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="3" TYPE="CL_ABAP_ZIP"/>
+   <source>METHOD save_archive_file.
+
+    DATA: lv_content  TYPE xstring,
+          fullpath    TYPE string,
+          filename    TYPE string,
+          path        TYPE string,
+          user_action TYPE i,
+          encoding    TYPE abap_encoding,
+          length      TYPE i ##needed.
+
+    DATA: BEGIN OF line_bin,
+            DATA(1024) TYPE x,
+          END OF line_bin.
+    DATA: data_tab_bin LIKE STANDARD TABLE OF line_bin.
+
+    CHECK test_only = abap_true.
+
+    lv_content = archive-&gt;save( ).
+
+* Binary download table
+    WHILE xstrlen( lv_content ) &gt; 0.
+      line_bin-data = lv_content.
+      APPEND line_bin TO data_tab_bin.
+      SHIFT lv_content LEFT BY 1024 PLACES IN BYTE MODE.
+    ENDWHILE.
+
+* Get filename
+    CALL METHOD cl_gui_frontend_services=&gt;file_save_dialog
+      EXPORTING
+        window_title         = &apos;Download Archive&apos;
+        with_encoding        = &apos;X&apos;
+        initial_directory    = &apos;C:\&apos;
+      CHANGING
+        filename             = filename
+        path                 = path
+        fullpath             = fullpath
+        user_action          = user_action
+        file_encoding        = encoding
+      EXCEPTIONS
+        cntl_error           = 1
+        error_no_gui         = 2
+        not_supported_by_gui = 3
+        OTHERS               = 4.
+    IF sy-subrc &lt;&gt; 0.
+      RETURN.
+    ENDIF.
+
+    IF user_action &lt;&gt; cl_gui_frontend_services=&gt;action_ok.
+      RETURN.
+    ENDIF.
+
+* Binary download
+    CALL FUNCTION &apos;GUI_DOWNLOAD&apos;
+      EXPORTING
+        filename                = fullpath
+        filetype                = &apos;BIN&apos;
+      IMPORTING
+        filelength              = length
+      TABLES
+        data_tab                = data_tab_bin
+      EXCEPTIONS
+        file_write_error        = 1
+        no_batch                = 2
+        gui_refuse_filetransfer = 3
+        invalid_type            = 4
+        no_authority            = 5
+        unknown_error           = 6
+        header_not_allowed      = 7
+        separator_not_allowed   = 8
+        filesize_not_allowed    = 9
+        header_too_long         = 10
+        dp_error_create         = 11
+        dp_error_send           = 12
+        dp_error_write          = 13
+        unknown_dp_error        = 14
+        access_denied           = 15
+        dp_out_of_memory        = 16
+        disk_full               = 17
+        dp_timeout              = 18
+        file_not_found          = 19
+        dataprovider_exception  = 20
+        control_flush_error     = 21
+        OTHERS                  = 22 ##FM_SUBRC_OK.
+
+  ENDMETHOD.                    &quot;save_zip_file</source>
+  </method>
+  <method CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="STRING_TO_XSTRING" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="18 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="STRING_TO_XSTRING" SCONAME="IN" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="STRING_TO_XSTRING" SCONAME="OUT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="XSTRING"/>
+   <source>METHOD string_to_xstring.
+
+    CALL FUNCTION &apos;HR_KR_STRING_TO_XSTRING&apos;
+      EXPORTING
+*       CODEPAGE_TO      = &apos;8500&apos;
+        unicode_string   = in
+*       OUT_LEN          = OUT_LEN
+      IMPORTING
+        xstring_stream   = out
+      EXCEPTIONS
+        invalid_codepage = 1
+        invalid_string   = 2
+        OTHERS           = 3 ##FM_SUBRC_OK.
+
+  ENDMETHOD.                    &quot;STRING_TO_XSTRING</source>
+  </method>
+  <method CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="UPDATE_CACHEBUSTER" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="15 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD update_cachebuster.
+
+    DATA: lv_jobnumber TYPE          tbtcjob-jobcount,
+          lv_jobname   TYPE          tbtcjob-jobname VALUE &apos;UI5_CACHEBUSTER&apos;.
+
+    CHECK test_only NE abap_true.
+
+    CALL FUNCTION &apos;JOB_OPEN&apos;
+      EXPORTING
+        jobname          = lv_jobname
+      IMPORTING
+        jobcount         = lv_jobnumber
+      EXCEPTIONS
+        cant_create_job  = 1
+        invalid_job_data = 2
+        jobname_missing  = 3
+        OTHERS           = 4.
+
+    CHECK sy-subrc = 0.
+
+    SUBMIT /ui5/update_cachebuster
+      VIA JOB lv_jobname NUMBER lv_jobnumber AND RETURN.
+
+    CHECK sy-subrc = 0.
+
+    CALL FUNCTION &apos;JOB_CLOSE&apos;
+      EXPORTING
+        jobcount             = lv_jobnumber
+        jobname              = lv_jobname
+        strtimmed            = &apos;X&apos;
+      EXCEPTIONS
+        cant_start_immediate = 1
+        invalid_startdate    = 2
+        jobname_missing      = 3
+        job_close_failed     = 4
+        job_nosteps          = 5
+        job_notex            = 6
+        lock_failed          = 7
+        OTHERS               = 8 ##FM_SUBRC_OK.
+
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="UPLOAD_ARCHIVE_INTO_ICF" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="16 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" MTDNEWEXC="X" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="UPLOAD_ARCHIVE_INTO_ICF" SCONAME="ARCHIVE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="3" TYPE="CL_ABAP_ZIP"/>
+   <exception CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="UPLOAD_ARCHIVE_INTO_ICF" SCONAME="CX_SY_CREATE_DATA_ERROR" VERSION="1" LANGU="E" DESCRIPT="System Exception Involving Data Without Object Creation" MTDTYPE="0" EDITORDER="1 "/>
+   <source>METHOD upload_archive_into_icf.
+
+    DATA: lv_zip_file TYPE xstring.
+* Messages
+    DATA: lv_success      TYPE char1,
+          lt_log_messages TYPE string_table,
+          lv_message      TYPE string,
+          lv_msg_id       TYPE sy-msgid,
+          lv_msg_no       TYPE sy-msgno.
+
+    CHECK archive-&gt;files IS NOT INITIAL.
+
+    lv_message = |Archive contains { lines( archive-&gt;files ) } folders &amp; files|.
+    WRITE:/, lv_message.
+    IF minify_file_count &gt; 0.
+      lv_message = |{ minify_file_count } files minified - { minify_byte_count } bytes removed|.
+      WRITE:/, lv_message.
+    ENDIF.
+
+    WRITE:/, `Loading archive.....`.
+
+    lv_zip_file = archive-&gt;save( ).
+
+    CALL FUNCTION &apos;YUI5_REPOSITORY_LOAD_HTTP&apos;
+      EXPORTING
+        iv_url               = &apos;&apos;
+*       IV_SAPUI5_APPLICATION_NAME = &apos;&apos;
+*       IV_SAPUI5_APPLICATION_DESC = &apos;&apos;
+*       IV_PACKAGE           = &apos;&apos;
+        iv_workbench_request = me-&gt;transport
+*       IV_EXTERNAL_CODE_PAGE      = &apos;&apos;
+*       IV_ACCEPT_UNIX_STYLE_EOL   = &apos;X&apos;
+*       IV_DELTA_MODE        = &apos;-&apos;
+        iv_test_mode         = me-&gt;test_only
+        iv_zip_file          = lv_zip_file
+      IMPORTING
+        ev_success           = lv_success
+        ev_log_messages      = lt_log_messages
+        ev_msg_id            = lv_msg_id
+        ev_msg_no            = lv_msg_no.
+
+    MESSAGE ID lv_msg_id TYPE lv_success NUMBER lv_msg_no INTO lv_message.
+    LOOP AT lt_log_messages INTO lv_message.
+      WRITE:/, lv_message.
+    ENDLOOP.
+    CASE lv_success.
+      WHEN &apos;S&apos;.
+        WRITE:/, &apos;Success&apos; COLOR COL_POSITIVE, lv_message COLOR COL_POSITIVE.
+      WHEN &apos;W&apos;.
+        WRITE:/, &apos;Warning&apos; COLOR COL_GROUP, lv_message COLOR COL_GROUP.
+      WHEN OTHERS.
+        WRITE:/, &apos;Error&apos; COLOR COL_NEGATIVE, lv_message COLOR COL_NEGATIVE.
+        RAISE EXCEPTION TYPE cx_sy_create_data_error &quot;Just any old exception to signal failure
+          EXPORTING
+            textid = cx_sy_create_data_error=&gt;generic_type
+*           previous = previous
+*           typename = typename
+          .
+    ENDCASE.
+
+  ENDMETHOD.                    &quot;load_archive</source>
+  </method>
+  <method CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="XSTRING_TO_STRING" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="17 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="XSTRING_TO_STRING" SCONAME="IN" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="XSTRING"/>
+   <parameter CLSNAME="YCL_GITHUB_DEPLOYER" CMPNAME="XSTRING_TO_STRING" SCONAME="OUT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="STRING"/>
+   <source>METHOD xstring_to_string.
+
+    CALL FUNCTION &apos;HR_KR_XSTRING_TO_STRING&apos;
+      EXPORTING
+*       FROM_CODEPAGE = &apos;8500&apos;
+        in_xstring = in
+*       OUT_LEN    = OUT_LEN
+      IMPORTING
+        out_string = out.
+
+  ENDMETHOD.                    &quot;XSTRING_TO_STRING</source>
+  </method>
+ </CLAS>
+</nugget>
