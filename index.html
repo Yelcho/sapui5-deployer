@@ -34,11 +34,11 @@
                     <li>Remove wrapper subdirectory from archive</li>
                     <li>Minify CSS, Javascript & XML files</li>
                     <li>Build Component-preload.js file where required</li>
-                    <li>Recursively perform above steps for all Github submodules</li>
-                    <li>Build complete new archive ready for deployment</li>
-                    <li>Save deployment archive to file system</li>
+                    <li>Recursively perform above steps for any required Github submodules</li>
+                    <li>Package up all artifacts into a deployment archive</li>
+                    <li>Optionally save deployment archive to file system</li>
                     <li>Deploy to SAP Internet Communications Framework</li>
-                    <li>Flush cache</li>
+                    <li>Invalidate the UI5 cache buster</li>
                 </ul>
                 <table style="border:0px;">
                     <tr>
@@ -69,9 +69,9 @@
                 <p>The main functionality used to deploy the archive is in Function Module <code>/UI5/UI5_REPOSITORY_LOAD_HTTP</code> that is part of the Software Component SAP_UI. You can easily figure out how to use this function module by looking at report <code>/UI5/UI5_REPOSITORY_LOAD_HTTP</code>. <small>*Yes the FM and the Report have the same name ;)</small></p>
                 <p>In this Report you can also find the syntax of the parameters file that can be used to provide the details like Name of Application etc.</p>
                 <p>We need to modify this function module slightly as the original version reads the zip archive to be processed via http-call while we want to hand it over as binary data (XSTRING).</p>
-                <p>You can choose to modify the SAP delivered function module or make your own copy for the purpose.</p>
+                <p>You can choose to modify the SAP delivered function module or, as I did, make your own copy for the purpose.</p>
                 <p>Make the following modifications to the Function Module <code>/UI5/UI5_REPOSITORY_LOAD_HTTP</code></p>
-                <p>Add importing parameter IV_ZIP_FILE (optional and pass value):</p>
+                <p>Add importing parameter IV_ZIP_FILE (optional and pass by value):</p>
                 <pre><code>IV_ZIP_FILE TYPE XSTRING </code> The zip archive</pre>
                 <p>Hand over the zip file to the local class (around line 171 of FM <code>/UI5/UI5_REPOSITORY_LOAD_HTTP</code>):</p>
                 <pre><code>GET REFERENCE OF <span style="color:black">ev_log_messages</span> INTO <span style="color:black">log_messages_ref.</span>
