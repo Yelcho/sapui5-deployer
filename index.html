@@ -32,7 +32,7 @@
                 <ul>
                     <li>Download of Github Archive</li>
                     <li>Remove wrapper subdirectory from archive</li>
-                    <li>Minify CSS, Javascript & XML files</li>
+                    <li>Minify CSS & Javascript files</li>
                     <li>Build Component-preload.js file where required</li>
                     <li>Recursively perform above steps for any required Github submodules</li>
                     <li>Package up all artifacts into a deployment archive</li>
@@ -139,7 +139,7 @@ START-OF-SELECTION.
                 <h1>  
 <a id="usage-instructions" class="anchor" href="#continuous-deployment" aria-hidden="true"><span class="octicon octicon-link"></span></a>Continuous Deployment</h1>
                 <p>If you want to implement a Continuous Deployment solution so that the SAPUI5 app is automatically deployed when changes are committed I suggest the following two methods.</p>
-                <p>If your infratructure guys will allow HTTP calls from outside your corporate network to be passed through to your development WAS you can build a ICF handler that can be called using a <a href="https://developer.github.com/webhooks/" target="_blank">GitHub Webhook</a> whenever there is a commit or branch merge to master. When triggered this handler should check the API call for validity before calling the <code>YCL_GITHUB_DEPLOYER</code> class. In my opinion this is the best way to trigger deployment as the code is only executed when actually required.</p>
+                <p>If your infrastructure guys will allow HTTP calls from outside your corporate network to be passed through to your development WAS you can build a ICF handler that can be called using a <a href="https://developer.github.com/webhooks/" target="_blank">GitHub Webhook</a> whenever there is a commit or branch merge to master. This HTTP call could pass through a SAP Web Dispatcher or go to another intermediate server that could handle the webhook call. When triggered this handler should check the API call for validity before calling the <code>YCL_GITHUB_DEPLOYER</code> class. In my opinion this is the best way to trigger deployment as the code is only executed when actually required.</p>
                 <p>If you are unable to use the GitHub Webhook method you can build a program that calls the <a href="https://developer.github.com/" target="_blank">GitHub API</a> to see if the SHA-1 hash of the master branch has changed. If it has then the <code>YCL_GITHUB_DEPLOYER</code> class can be called. I suggest storing the SHA-1 hash in a server-side cookie (<code>CL_BSP_SERVER_SIDE_COOKIE</code>) for this purpose. This program would need to be scheduled as a regular background job so that it regularly checks if a deployment is required.</p>
                 <center><img src="images/rocketship.png" width="100%"></center>
                 <h1>
