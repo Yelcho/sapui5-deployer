@@ -1060,17 +1060,14 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD string_to_xstring.
 
-    CALL FUNCTION 'HR_KR_STRING_TO_XSTRING'
+    CALL FUNCTION 'ECATT_CONV_STRING_TO_XSTRING'
       EXPORTING
-*       CODEPAGE_TO      = '8500'
-        unicode_string   = in
-*       OUT_LEN          = OUT_LEN
+        im_string  = in
+*       im_encoding =
       IMPORTING
-        xstring_stream   = out
-      EXCEPTIONS
-        invalid_codepage = 1
-        invalid_string   = 2
-        OTHERS           = 3 ##FM_SUBRC_OK.
+        ex_xstring = out
+*       ex_len     =
+      .
 
   ENDMETHOD.                    "STRING_TO_XSTRING
 
@@ -1200,13 +1197,12 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
 * +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD xstring_to_string.
 
-    CALL FUNCTION 'HR_KR_XSTRING_TO_STRING'
+    CALL FUNCTION 'ECATT_CONV_XSTRING_TO_STRING'
       EXPORTING
-*       FROM_CODEPAGE = '8500'
-        in_xstring = in
-*       OUT_LEN    = OUT_LEN
+        im_xstring = in
+*       im_encoding = 'UTF-8'
       IMPORTING
-        out_string = out.
+        ex_string  = out.
 
   ENDMETHOD.                    "XSTRING_TO_STRING
 ENDCLASS.
