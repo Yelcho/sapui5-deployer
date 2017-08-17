@@ -135,12 +135,6 @@ ENDCLASS.
 CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
 
 
-* <SIGNATURE>---------------------------------------------------------------------------------------+
-* | Instance Private Method YCL_GITHUB_DEPLOYER->ADD_MODULE_TO_ARCHIVE
-* +-------------------------------------------------------------------------------------------------+
-* | [--->] INFO                           TYPE        SUBMODULE_INFO_TYPE
-* | [--->] ARCHIVE                        TYPE REF TO CL_ABAP_ZIP
-* +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD add_module_to_archive.
 
     DATA: lo_archive           TYPE REF TO cl_abap_zip,
@@ -156,7 +150,7 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
     WRITE:/, `Adding module`, info-repository, info-branch, 'to archive'.
 
     lo_archive = remove_cover_folder( get_module_archive(
-        url      = |http://github.com/{ info-repository }/zipball/{ info-branch }|
+        url      = |https://github.com/{ info-repository }/zipball/{ info-branch }|
         user     = me->github_user
         password = me->password ) ).
 
@@ -290,13 +284,6 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
   ENDMETHOD.                    "add_module_to_archive
 
 
-* <SIGNATURE>---------------------------------------------------------------------------------------+
-* | Instance Private Method YCL_GITHUB_DEPLOYER->CLEANUP_STRINGDATA
-* +-------------------------------------------------------------------------------------------------+
-* | [--->] DATA_IN                        TYPE        STRING
-* | [--->] NOGAPS                         TYPE        BOOLEAN(optional)
-* | [<-()] DATA_OUT                       TYPE        STRING
-* +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD cleanup_stringdata.
 
     CONSTANTS: lf  TYPE x LENGTH 4 VALUE '0A',
@@ -332,12 +319,6 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
   ENDMETHOD.                    "minify
 
 
-* <SIGNATURE>---------------------------------------------------------------------------------------+
-* | Instance Private Method YCL_GITHUB_DEPLOYER->CLEANUP_XMLDATA
-* +-------------------------------------------------------------------------------------------------+
-* | [--->] DATA_IN                        TYPE        STRING
-* | [<-()] DATA_OUT                       TYPE        STRING
-* +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD cleanup_xmldata.
 
     CONSTANTS: lf  TYPE x LENGTH 4 VALUE '0A',
@@ -375,17 +356,6 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
   ENDMETHOD.                    "minify
 
 
-* <SIGNATURE>---------------------------------------------------------------------------------------+
-* | Instance Private Method YCL_GITHUB_DEPLOYER->CONSTRUCTOR
-* +-------------------------------------------------------------------------------------------------+
-* | [--->] REPOSITORY                     TYPE        STRING
-* | [--->] BRANCH                         TYPE        STRING
-* | [--->] GITHUB_USER                    TYPE        STRING(optional)
-* | [--->] PASSWORD                       TYPE        STRING(optional)
-* | [--->] TRANSPORT                      TYPE        TRKORR(optional)
-* | [--->] TEST_ONLY                      TYPE        BOOLEAN(optional)
-* | [!CX!] CX_SY_CREATE_DATA_ERROR
-* +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD constructor.
 
     me->repository = repository.
@@ -416,16 +386,6 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
   ENDMETHOD.                    "constructor
 
 
-* <SIGNATURE>---------------------------------------------------------------------------------------+
-* | Static Public Method YCL_GITHUB_DEPLOYER=>DEPLOY
-* +-------------------------------------------------------------------------------------------------+
-* | [--->] REPOSITORY                     TYPE        STRING
-* | [--->] BRANCH                         TYPE        STRING
-* | [--->] GITHUB_USER                    TYPE        STRING(optional)
-* | [--->] PASSWORD                       TYPE        STRING(optional)
-* | [--->] TRANSPORT                      TYPE        TRKORR(optional)
-* | [--->] TEST_ONLY                      TYPE        BOOLEAN(optional)
-* +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD deploy.
     DATA: deployer TYPE REF TO ycl_github_deployer.
 
@@ -441,11 +401,6 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
   ENDMETHOD.                    "deploy
 
 
-* <SIGNATURE>---------------------------------------------------------------------------------------+
-* | Instance Private Method YCL_GITHUB_DEPLOYER->GET_CSS_MINIFY_PARAMS
-* +-------------------------------------------------------------------------------------------------+
-* | [<-()] RT_PARAMS                      TYPE        TIHTTPNVP
-* +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD get_css_minify_params.
 
     DATA: lr_param TYPE REF TO ihttpnvp.
@@ -499,12 +454,6 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
   ENDMETHOD.                    "get_css_minify_params
 
 
-* <SIGNATURE>---------------------------------------------------------------------------------------+
-* | Instance Private Method YCL_GITHUB_DEPLOYER->GET_FILE_TYPE
-* +-------------------------------------------------------------------------------------------------+
-* | [--->] IV_FILENAME                    TYPE        STRING
-* | [<-()] RV_FILETYPE                    TYPE        STRING
-* +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD get_file_type.
     DATA: lt_strings   TYPE stringtab,
           lr_extension TYPE REF TO string.
@@ -521,11 +470,6 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
   ENDMETHOD.                    "GET_FILE_TYPE
 
 
-* <SIGNATURE>---------------------------------------------------------------------------------------+
-* | Instance Private Method YCL_GITHUB_DEPLOYER->GET_JS_MINIFY_PARAMS
-* +-------------------------------------------------------------------------------------------------+
-* | [<-()] RT_PARAMS                      TYPE        TIHTTPNVP
-* +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD get_js_minify_params.
     DATA: lr_param TYPE REF TO ihttpnvp.
 
@@ -603,14 +547,6 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
   ENDMETHOD.                    "GET_JS_MINIFY_PARAMS
 
 
-* <SIGNATURE>---------------------------------------------------------------------------------------+
-* | Instance Private Method YCL_GITHUB_DEPLOYER->GET_MODULE_ARCHIVE
-* +-------------------------------------------------------------------------------------------------+
-* | [--->] URL                            TYPE        STRING
-* | [--->] USER                           TYPE        STRING
-* | [--->] PASSWORD                       TYPE        STRING
-* | [<-()] ARCHIVE                        TYPE REF TO CL_ABAP_ZIP
-* +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD get_module_archive.
 
     DATA: lr_client  TYPE REF TO if_http_client,
@@ -622,6 +558,7 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
     cl_http_client=>create_by_url(
       EXPORTING
         url = url
+        ssl_id        = 'ANONYM'
       IMPORTING
         client = lr_client
       EXCEPTIONS
@@ -645,9 +582,27 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
       MESSAGE lv_message TYPE 'E' DISPLAY LIKE 'I'.
       RETURN.
     ENDIF.
-    lr_client->receive( EXCEPTIONS OTHERS = 1 ).
+    lr_client->receive(
+      EXCEPTIONS
+        http_communication_failure = 1
+        http_invalid_state         = 2
+        http_processing_failed     = 3
+        OTHERS                     = 4 ).
     IF sy-subrc <> 0.
-      lv_message = |http receive error|.
+      CASE sy-subrc.
+        WHEN 1.
+          " make sure:
+          " a) SSL is setup properly in STRUST
+          " b) no firewalls
+          " check trace file in transaction SMICM
+          lv_message = 'HTTP Communication Failure'.        "#EC NOTEXT
+        WHEN 2.
+          lv_message = 'HTTP Invalid State'.                "#EC NOTEXT
+        WHEN 3.
+          lv_message = 'HTTP Processing failed'.            "#EC NOTEXT
+        WHEN OTHERS.
+          lv_message = 'Another error occured'.             "#EC NOTEXT
+      ENDCASE.
       WRITE:/, lv_message COLOR COL_NEGATIVE.
       MESSAGE lv_message TYPE 'E' DISPLAY LIKE 'I'.
       RETURN.
@@ -681,12 +636,6 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
   ENDMETHOD.                    "get_archive
 
 
-* <SIGNATURE>---------------------------------------------------------------------------------------+
-* | Instance Private Method YCL_GITHUB_DEPLOYER->GET_SUBMODULE_INFO
-* +-------------------------------------------------------------------------------------------------+
-* | [--->] IV_SUBMODULE_DATA              TYPE        XSTRING
-* | [<---] ET_SUBMODULE_INFO              TYPE        SUBMODULE_INFO_TTYPE
-* +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD get_submodule_info.
 
     DATA: lv_gitmodules TYPE string,
@@ -723,13 +672,6 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
   ENDMETHOD.                    "GET_SUBMODULE_INFO
 
 
-* <SIGNATURE>---------------------------------------------------------------------------------------+
-* | Instance Private Method YCL_GITHUB_DEPLOYER->MINIFY
-* +-------------------------------------------------------------------------------------------------+
-* | [--->] DATA_IN                        TYPE        XSTRING
-* | [--->] FILE_TYPE                      TYPE        STRING
-* | [<-()] DATA_OUT                       TYPE        XSTRING
-* +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD minify.
 
     CASE file_type.
@@ -751,12 +693,6 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
   ENDMETHOD.                    "minify
 
 
-* <SIGNATURE>---------------------------------------------------------------------------------------+
-* | Instance Private Method YCL_GITHUB_DEPLOYER->MINIFY_CSS
-* +-------------------------------------------------------------------------------------------------+
-* | [--->] DATA_IN                        TYPE        XSTRING
-* | [<-()] DATA_OUT                       TYPE        XSTRING
-* +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD minify_css.
 
     DATA: lr_client  TYPE REF TO if_http_client,
@@ -772,6 +708,7 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
     cl_http_client=>create_by_url(
       EXPORTING
         url = 'http://refresh-sf.herokuapp.com/css/' "See http://refresh-sf.com/ for details
+        ssl_id = 'ANONYM'
       IMPORTING
         client = lr_client
       EXCEPTIONS
@@ -814,25 +751,18 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
       ENDIF.
 
       IF lv_code EQ 200.
-        TRY.
-            zcl_json_document=>create_with_json(
-              lr_client->response->get_cdata( )
-              )->get_data( IMPORTING data = json_response ).
-            data_out = string_to_xstring( json_response-code ).
-          CATCH zcx_json_document ##NO_HANDLER.
-        ENDTRY.
+        /ui2/cl_json=>deserialize(
+          EXPORTING json = lr_client->response->get_cdata( )
+            pretty_name = /ui2/cl_json=>pretty_mode-camel_case
+          CHANGING
+            data =  json_response ).
+        data_out = string_to_xstring( json_response-code ).
       ENDIF.
     ENDIF.
 
   ENDMETHOD.                    "minify
 
 
-* <SIGNATURE>---------------------------------------------------------------------------------------+
-* | Instance Private Method YCL_GITHUB_DEPLOYER->MINIFY_JS
-* +-------------------------------------------------------------------------------------------------+
-* | [--->] DATA_IN                        TYPE        XSTRING
-* | [<-()] DATA_OUT                       TYPE        XSTRING
-* +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD minify_js.
 
     DATA: lr_client  TYPE REF TO if_http_client,
@@ -849,6 +779,7 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
     cl_http_client=>create_by_url(
       EXPORTING
         url = 'http://refresh-sf.herokuapp.com/javascript/' "See http://refresh-sf.com/ for details
+        ssl_id        = 'ANONYM'
       IMPORTING
         client = lr_client
       EXCEPTIONS
@@ -891,25 +822,18 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
       ENDIF.
 
       IF lv_code EQ 200.
-        TRY.
-            zcl_json_document=>create_with_json(
-              lr_client->response->get_cdata( )
-              )->get_data( IMPORTING data = json_response ).
-            data_out = string_to_xstring( json_response-code ).
-          CATCH zcx_json_document ##NO_HANDLER.
-        ENDTRY.
+        /ui2/cl_json=>deserialize(
+          EXPORTING json = lr_client->response->get_cdata( )
+            pretty_name = /ui2/cl_json=>pretty_mode-camel_case
+          CHANGING
+            data =  json_response ).
+        data_out = string_to_xstring( json_response-code ).
       ENDIF.
     ENDIF.
 
   ENDMETHOD.                    "minify
 
 
-* <SIGNATURE>---------------------------------------------------------------------------------------+
-* | Instance Private Method YCL_GITHUB_DEPLOYER->REMOVE_COVER_FOLDER
-* +-------------------------------------------------------------------------------------------------+
-* | [--->] ARCHIVE                        TYPE REF TO CL_ABAP_ZIP
-* | [<-()] NEW_ARCHIVE                    TYPE REF TO CL_ABAP_ZIP
-* +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD remove_cover_folder.
 
     DATA: ls_file    LIKE LINE OF archive->files,
@@ -960,11 +884,6 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
   ENDMETHOD.                    "remove_cover_folder
 
 
-* <SIGNATURE>---------------------------------------------------------------------------------------+
-* | Instance Private Method YCL_GITHUB_DEPLOYER->SAVE_ARCHIVE_FILE
-* +-------------------------------------------------------------------------------------------------+
-* | [--->] ARCHIVE                        TYPE REF TO CL_ABAP_ZIP
-* +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD save_archive_file.
 
     DATA: lv_content  TYPE xstring,
@@ -976,7 +895,7 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
           length      TYPE i ##needed.
 
     DATA: BEGIN OF line_bin,
-            DATA(1024) TYPE x,
+            data(1024) TYPE x,
           END OF line_bin.
     DATA: data_tab_bin LIKE STANDARD TABLE OF line_bin.
 
@@ -1052,30 +971,38 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
   ENDMETHOD.                    "save_zip_file
 
 
-* <SIGNATURE>---------------------------------------------------------------------------------------+
-* | Instance Private Method YCL_GITHUB_DEPLOYER->STRING_TO_XSTRING
-* +-------------------------------------------------------------------------------------------------+
-* | [--->] IN                             TYPE        STRING
-* | [<-()] OUT                            TYPE        XSTRING
-* +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD string_to_xstring.
 
-    CALL FUNCTION 'ECATT_CONV_STRING_TO_XSTRING'
+*    CALL FUNCTION 'HR_KR_STRING_TO_XSTRING'
+*      EXPORTING
+**       CODEPAGE_TO      = '8500'
+*        unicode_string   = in
+**       OUT_LEN          = OUT_LEN
+*      IMPORTING
+*        xstring_stream   = out
+*      EXCEPTIONS
+*        invalid_codepage = 1
+*        invalid_string   = 2
+*        OTHERS           = 3 ##FM_SUBRC_OK.
+
+
+    DATA(lv_conv) = cl_abap_conv_out_ce=>create( ).
+
+    CALL METHOD lv_conv->write
       EXPORTING
-        im_string  = in
-*       im_encoding =
+        n    = -1
+        data = in
       IMPORTING
-        ex_xstring = out
-*       ex_len     =
-      .
+        len  = DATA(lv_length).
+
+
+    CALL METHOD lv_conv->get_buffer
+      RECEIVING
+        buffer = out.
 
   ENDMETHOD.                    "STRING_TO_XSTRING
 
 
-* <SIGNATURE>---------------------------------------------------------------------------------------+
-* | Instance Private Method YCL_GITHUB_DEPLOYER->UPDATE_CACHEBUSTER
-* +-------------------------------------------------------------------------------------------------+
-* +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD update_cachebuster.
 
     DATA: lv_jobnumber TYPE          tbtcjob-jobcount,
@@ -1096,7 +1023,7 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
 
     CHECK sy-subrc = 0.
 
-    SUBMIT /ui5/update_cachebuster
+    SUBMIT /ui5/app_index_calculate "/ui5/update_cachebuster
       VIA JOB lv_jobname NUMBER lv_jobnumber AND RETURN.
 
     CHECK sy-subrc = 0.
@@ -1120,12 +1047,6 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
   ENDMETHOD.
 
 
-* <SIGNATURE>---------------------------------------------------------------------------------------+
-* | Instance Private Method YCL_GITHUB_DEPLOYER->UPLOAD_ARCHIVE_INTO_ICF
-* +-------------------------------------------------------------------------------------------------+
-* | [--->] ARCHIVE                        TYPE REF TO CL_ABAP_ZIP
-* | [!CX!] CX_SY_CREATE_DATA_ERROR
-* +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD upload_archive_into_icf.
 
     DATA: lv_zip_file TYPE xstring.
@@ -1189,20 +1110,31 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
   ENDMETHOD.                    "load_archive
 
 
-* <SIGNATURE>---------------------------------------------------------------------------------------+
-* | Instance Private Method YCL_GITHUB_DEPLOYER->XSTRING_TO_STRING
-* +-------------------------------------------------------------------------------------------------+
-* | [--->] IN                             TYPE        XSTRING
-* | [<-()] OUT                            TYPE        STRING
-* +--------------------------------------------------------------------------------------</SIGNATURE>
   METHOD xstring_to_string.
 
-    CALL FUNCTION 'ECATT_CONV_XSTRING_TO_STRING'
+*    CALL FUNCTION 'HR_KR_XSTRING_TO_STRING'
+*      EXPORTING
+**       FROM_CODEPAGE = '8500'
+*        in_xstring = in
+**       OUT_LEN    = OUT_LEN
+*      IMPORTING
+*        out_string = out.
+
+    DATA lo_conv TYPE REF TO cl_abap_conv_in_ce.
+
+    CALL METHOD cl_abap_conv_in_ce=>create
       EXPORTING
-        im_xstring = in
-*       im_encoding = 'UTF-8'
+        encoding    = 'UTF-8'
+        endian      = 'L'
+        ignore_cerr = 'X'
+        replacement = '#'
+        input       = in
+      RECEIVING
+        conv        = lo_conv.
+
+    CALL METHOD lo_conv->read
       IMPORTING
-        ex_string  = out.
+        data = out.
 
   ENDMETHOD.                    "XSTRING_TO_STRING
 ENDCLASS.

@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_FUGR" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <AREAT>SAPUI5 Repository Load</AREAT>
+   <INCLUDES>
+    <SOBJ_NAME>LYUI5_REPOSITORY_LOADD01</SOBJ_NAME>
+    <SOBJ_NAME>LYUI5_REPOSITORY_LOADP01</SOBJ_NAME>
+    <SOBJ_NAME>LYUI5_REPOSITORY_LOADTOP</SOBJ_NAME>
+    <SOBJ_NAME>SAPLYUI5_REPOSITORY_LOAD</SOBJ_NAME>
+   </INCLUDES>
+   <FUNCTIONS>
+    <item>
+     <FUNCNAME>YUI5_REPOSITORY_LOAD_HTTP</FUNCNAME>
+     <INCLUDE>LYUI5_REPOSITORY_LOADU01</INCLUDE>
+     <REMOTE_CALL>R</REMOTE_CALL>
+     <SHORT_TEXT>SAPUI5 Repository Upload via HTTP Protocoll</SHORT_TEXT>
+     <IMPORT>
+      <RSIMP>
+       <PARAMETER>IV_URL</PARAMETER>
+       <TYP>STRING</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IV_SAPUI5_APPLICATION_NAME</PARAMETER>
+       <DEFAULT>&apos;&apos;</DEFAULT>
+       <OPTIONAL>X</OPTIONAL>
+       <TYP>STRING</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IV_SAPUI5_APPLICATION_DESC</PARAMETER>
+       <DEFAULT>&apos;&apos;</DEFAULT>
+       <OPTIONAL>X</OPTIONAL>
+       <TYP>STRING</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IV_PACKAGE</PARAMETER>
+       <DEFAULT>&apos;&apos;</DEFAULT>
+       <OPTIONAL>X</OPTIONAL>
+       <TYP>DEVCLASS</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IV_WORKBENCH_REQUEST</PARAMETER>
+       <DEFAULT>&apos;&apos;</DEFAULT>
+       <OPTIONAL>X</OPTIONAL>
+       <TYP>TRKORR</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IV_EXTERNAL_CODE_PAGE</PARAMETER>
+       <DEFAULT>&apos;&apos;</DEFAULT>
+       <OPTIONAL>X</OPTIONAL>
+       <TYP>STRING</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IV_ACCEPT_UNIX_STYLE_EOL</PARAMETER>
+       <DEFAULT>&apos;-&apos;</DEFAULT>
+       <OPTIONAL>X</OPTIONAL>
+       <TYP>BOOLEAN</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IV_DELTA_MODE</PARAMETER>
+       <DEFAULT>&apos;-&apos;</DEFAULT>
+       <OPTIONAL>X</OPTIONAL>
+       <TYP>BOOLEAN</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IV_TEST_MODE</PARAMETER>
+       <DEFAULT>&apos;&apos;</DEFAULT>
+       <OPTIONAL>X</OPTIONAL>
+       <TYP>BOOLEAN</TYP>
+      </RSIMP>
+      <RSIMP>
+       <PARAMETER>IV_ZIP_FILE</PARAMETER>
+       <OPTIONAL>X</OPTIONAL>
+       <TYP>XSTRING</TYP>
+      </RSIMP>
+     </IMPORT>
+     <EXPORT>
+      <RSEXP>
+       <PARAMETER>EV_SUCCESS</PARAMETER>
+       <TYP>CHAR1</TYP>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>EV_LOG_MESSAGES</PARAMETER>
+       <TYP>STRING_TABLE</TYP>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>EV_MSG_ID</PARAMETER>
+       <TYP>SY-MSGID</TYP>
+      </RSEXP>
+      <RSEXP>
+       <PARAMETER>EV_MSG_NO</PARAMETER>
+       <TYP>SY-MSGNO</TYP>
+      </RSEXP>
+     </EXPORT>
+     <DOCUMENTATION>
+      <RSFDO>
+       <PARAMETER>IV_URL</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Url to load SAPUI5 application from</STEXT>
+       <INDEX> 001</INDEX>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IV_SAPUI5_APPLICATION_NAME</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Name of SAPUI5 application to be loaded</STEXT>
+       <INDEX> 002</INDEX>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IV_SAPUI5_APPLICATION_DESC</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Description of SAPUI5 application</STEXT>
+       <INDEX> 003</INDEX>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IV_PACKAGE</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Package of SAPUI5 application</STEXT>
+       <INDEX> 004</INDEX>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IV_WORKBENCH_REQUEST</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>ABAP workbench request</STEXT>
+       <INDEX> 005</INDEX>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IV_EXTERNAL_CODE_PAGE</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>External code page name for text files</STEXT>
+       <INDEX> 006</INDEX>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IV_ACCEPT_UNIX_STYLE_EOL</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Accept unix style line endings in text files</STEXT>
+       <INDEX> 007</INDEX>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IV_DELTA_MODE</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Upload different files and folders, delete obsolete resources</STEXT>
+       <INDEX> 008</INDEX>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IV_TEST_MODE</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Activate test mode with detailed messages</STEXT>
+       <INDEX> 009</INDEX>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>IV_ZIP_FILE</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>ZIP file</STEXT>
+       <INDEX> 010</INDEX>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EV_SUCCESS</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Outcome of function call: S=Success, W=Warning, E=error</STEXT>
+       <INDEX> 011</INDEX>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EV_LOG_MESSAGES</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Outcome of function call: Log Messages</STEXT>
+       <INDEX> 012</INDEX>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EV_MSG_ID</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Outcome of function call: Message Class</STEXT>
+       <INDEX> 013</INDEX>
+      </RSFDO>
+      <RSFDO>
+       <PARAMETER>EV_MSG_NO</PARAMETER>
+       <KIND>P</KIND>
+       <STEXT>Outcome of function call: Message Number</STEXT>
+       <INDEX> 014</INDEX>
+      </RSFDO>
+     </DOCUMENTATION>
+    </item>
+   </FUNCTIONS>
+  </asx:values>
+ </asx:abap>
+</abapGit>
