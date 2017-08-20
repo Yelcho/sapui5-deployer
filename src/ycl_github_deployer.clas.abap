@@ -19,115 +19,117 @@ CLASS ycl_github_deployer DEFINITION
         !transport   TYPE trkorr OPTIONAL
         !test_only   TYPE boolean OPTIONAL .
   PROTECTED SECTION.
-  PRIVATE SECTION.
+private section.
 
-    TYPES:
-      BEGIN OF submodule_info_type,
+  types:
+    BEGIN OF submodule_info_type,
         folder     TYPE string,
         repository TYPE string,
         branch     TYPE string,
       END OF submodule_info_type .
-    TYPES:
-      submodule_info_ttype TYPE STANDARD TABLE OF submodule_info_type .
+  types:
+    submodule_info_ttype TYPE STANDARD TABLE OF submodule_info_type .
 
-    DATA repository TYPE string .
-    DATA branch TYPE string .
-    DATA transport TYPE trkorr .
-    DATA test_only TYPE boolean .
-    DATA github_user TYPE string .
-    DATA password TYPE string .
-    DATA minify_file_count TYPE i .
-    DATA minify_byte_count TYPE i .
-    DATA enable_minify TYPE boolean VALUE abap_true ##NO_TEXT.
+  data REPOSITORY type STRING .
+  data BRANCH type STRING .
+  data TRANSPORT type TRKORR .
+  data TEST_ONLY type BOOLEAN .
+  data GITHUB_USER type STRING .
+  data PASSWORD type STRING .
+  data MINIFY_FILE_COUNT type I .
+  data MINIFY_BYTE_COUNT type I .
+  data ENABLE_MINIFY type BOOLEAN value ABAP_TRUE ##NO_TEXT.
+  data JS_MINIFY_PARAMS type TIHTTPNVP .
+  data CSS_MINIFY_PARAMS type TIHTTPNVP .
 
-    METHODS constructor
-      IMPORTING
-        !repository  TYPE string
-        !branch      TYPE string
-        !github_user TYPE string OPTIONAL
-        !password    TYPE string OPTIONAL
-        !transport   TYPE trkorr OPTIONAL
-        !test_only   TYPE boolean OPTIONAL
-      RAISING
-        cx_sy_create_data_error .
-    METHODS add_module_to_archive
-      IMPORTING
-        !info          TYPE submodule_info_type
-        VALUE(archive) TYPE REF TO cl_abap_zip .
-    METHODS cleanup_stringdata
-      IMPORTING
-        !data_in        TYPE string
-        !nogaps         TYPE boolean OPTIONAL
-      RETURNING
-        VALUE(data_out) TYPE string .
-    METHODS cleanup_xmldata
-      IMPORTING
-        !data_in        TYPE string
-      RETURNING
-        VALUE(data_out) TYPE string .
-    METHODS get_file_type
-      IMPORTING
-        !iv_filename       TYPE string
-      RETURNING
-        VALUE(rv_filetype) TYPE string .
-    METHODS get_css_minify_params
-      RETURNING
-        VALUE(rt_params) TYPE tihttpnvp .
-    METHODS get_js_minify_params
-      RETURNING
-        VALUE(rt_params) TYPE tihttpnvp .
-    METHODS get_module_archive
-      IMPORTING
-        !url           TYPE string
-        !user          TYPE string
-        !password      TYPE string
-      RETURNING
-        VALUE(archive) TYPE REF TO cl_abap_zip .
-    METHODS get_submodule_info
-      IMPORTING
-        !iv_submodule_data       TYPE xstring
-      EXPORTING
-        VALUE(et_submodule_info) TYPE submodule_info_ttype .
-    METHODS minify
-      IMPORTING
-        !data_in        TYPE xstring
-        !file_type      TYPE string
-      RETURNING
-        VALUE(data_out) TYPE xstring .
-    METHODS minify_js
-      IMPORTING
-        !data_in        TYPE xstring
-      RETURNING
-        VALUE(data_out) TYPE xstring .
-    METHODS minify_css
-      IMPORTING
-        !data_in        TYPE xstring
-      RETURNING
-        VALUE(data_out) TYPE xstring .
-    METHODS remove_cover_folder
-      IMPORTING
-        !archive           TYPE REF TO cl_abap_zip
-      RETURNING
-        VALUE(new_archive) TYPE REF TO cl_abap_zip .
-    METHODS save_archive_file
-      IMPORTING
-        !archive TYPE REF TO cl_abap_zip .
-    METHODS update_cachebuster .
-    METHODS upload_archive_into_icf
-      IMPORTING
-        VALUE(archive) TYPE REF TO cl_abap_zip
-      RAISING
-        cx_sy_create_data_error .
-    METHODS xstring_to_string
-      IMPORTING
-        !in        TYPE xstring
-      RETURNING
-        VALUE(out) TYPE string .
-    METHODS string_to_xstring
-      IMPORTING
-        !in        TYPE string
-      RETURNING
-        VALUE(out) TYPE xstring .
+  methods CONSTRUCTOR
+    importing
+      !REPOSITORY type STRING
+      !BRANCH type STRING
+      !GITHUB_USER type STRING optional
+      !PASSWORD type STRING optional
+      !TRANSPORT type TRKORR optional
+      !TEST_ONLY type BOOLEAN optional
+    raising
+      CX_SY_CREATE_DATA_ERROR .
+  methods ADD_MODULE_TO_ARCHIVE
+    importing
+      !INFO type SUBMODULE_INFO_TYPE
+      value(ARCHIVE) type ref to CL_ABAP_ZIP .
+  methods CLEANUP_STRINGDATA
+    importing
+      !DATA_IN type STRING
+      !NOGAPS type BOOLEAN optional
+    returning
+      value(DATA_OUT) type STRING .
+  methods CLEANUP_XMLDATA
+    importing
+      !DATA_IN type STRING
+    returning
+      value(DATA_OUT) type STRING .
+  methods GET_FILE_TYPE
+    importing
+      !IV_FILENAME type STRING
+    returning
+      value(RV_FILETYPE) type STRING .
+  methods GET_CSS_MINIFY_PARAMS
+    returning
+      value(RT_PARAMS) type TIHTTPNVP .
+  methods GET_JS_MINIFY_PARAMS
+    returning
+      value(RT_PARAMS) type TIHTTPNVP .
+  methods GET_MODULE_ARCHIVE
+    importing
+      !URL type STRING
+      !USER type STRING
+      !PASSWORD type STRING
+    returning
+      value(ARCHIVE) type ref to CL_ABAP_ZIP .
+  methods GET_SUBMODULE_INFO
+    importing
+      !IV_SUBMODULE_DATA type XSTRING
+    exporting
+      value(ET_SUBMODULE_INFO) type SUBMODULE_INFO_TTYPE .
+  methods MINIFY
+    importing
+      !DATA_IN type XSTRING
+      !FILE_TYPE type STRING
+    returning
+      value(DATA_OUT) type XSTRING .
+  methods MINIFY_JS
+    importing
+      !DATA_IN type XSTRING
+    returning
+      value(DATA_OUT) type XSTRING .
+  methods MINIFY_CSS
+    importing
+      !DATA_IN type XSTRING
+    returning
+      value(DATA_OUT) type XSTRING .
+  methods REMOVE_COVER_FOLDER
+    importing
+      !ARCHIVE type ref to CL_ABAP_ZIP
+    returning
+      value(NEW_ARCHIVE) type ref to CL_ABAP_ZIP .
+  methods SAVE_ARCHIVE_FILE
+    importing
+      !ARCHIVE type ref to CL_ABAP_ZIP .
+  methods UPDATE_CACHEBUSTER .
+  methods UPLOAD_ARCHIVE_INTO_ICF
+    importing
+      value(ARCHIVE) type ref to CL_ABAP_ZIP
+    raising
+      CX_SY_CREATE_DATA_ERROR .
+  methods XSTRING_TO_STRING
+    importing
+      !IN type XSTRING
+    returning
+      value(OUT) type STRING .
+  methods STRING_TO_XSTRING
+    importing
+      !IN type STRING
+    returning
+      value(OUT) type XSTRING .
 ENDCLASS.
 
 
@@ -403,53 +405,55 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
 
   METHOD get_css_minify_params.
 
-    DATA: lr_param TYPE REF TO ihttpnvp.
+    IF css_minify_params IS INITIAL.
+      APPEND INITIAL LINE TO css_minify_params REFERENCE INTO DATA(lr_param).
+      lr_param->name = 'type'.
+      lr_param->value = 'css'.
+      APPEND INITIAL LINE TO css_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[advanced]'.
+      lr_param->value = 'true'.
+      APPEND INITIAL LINE TO css_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[aggressiveMerging]'.
+      lr_param->value = 'true'.
+      APPEND INITIAL LINE TO css_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[rebase]'.
+      lr_param->value = 'true'.
+      APPEND INITIAL LINE TO css_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[processImport]'.
+      lr_param->value = 'true'.
+      APPEND INITIAL LINE TO css_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[benchmark]'.
+      lr_param->value = 'false'.
+      APPEND INITIAL LINE TO css_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[compatibility]'.
+      lr_param->value = 'false'.
+      APPEND INITIAL LINE TO css_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[keepBreaks]'.
+      lr_param->value = 'false'.
+      APPEND INITIAL LINE TO css_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[debug]'.
+      lr_param->value = 'false'.
+      APPEND INITIAL LINE TO css_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[inliner]'.
+      lr_param->value = ''.
+      APPEND INITIAL LINE TO css_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[relativeTo]'.
+      lr_param->value = ''.
+      APPEND INITIAL LINE TO css_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[root]'.
+      lr_param->value = ''.
+      APPEND INITIAL LINE TO css_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[target]'.
+      lr_param->value = ''.
+      APPEND INITIAL LINE TO css_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[keepSpecialComments]'.
+      lr_param->value = '*'.
+      APPEND INITIAL LINE TO css_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[roundingPrecision]'.
+      lr_param->value = '2'.
+    ENDIF.
 
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'type'.
-    lr_param->value = 'css'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[advanced]'.
-    lr_param->value = 'true'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[aggressiveMerging]'.
-    lr_param->value = 'true'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[rebase]'.
-    lr_param->value = 'true'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[processImport]'.
-    lr_param->value = 'true'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[benchmark]'.
-    lr_param->value = 'false'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[compatibility]'.
-    lr_param->value = 'false'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[keepBreaks]'.
-    lr_param->value = 'false'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[debug]'.
-    lr_param->value = 'false'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[inliner]'.
-    lr_param->value = ''.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[relativeTo]'.
-    lr_param->value = ''.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[root]'.
-    lr_param->value = ''.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[target]'.
-    lr_param->value = ''.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[keepSpecialComments]'.
-    lr_param->value = '*'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[roundingPrecision]'.
-    lr_param->value = '2'.
+    rt_params = css_minify_params.
 
   ENDMETHOD.                    "get_css_minify_params
 
@@ -471,78 +475,80 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
 
 
   METHOD get_js_minify_params.
-    DATA: lr_param TYPE REF TO ihttpnvp.
 
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'type'.
-    lr_param->value = 'javascript'.
+    IF js_minify_params IS INITIAL.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO DATA(lr_param).
+      lr_param->name = 'type'.
+      lr_param->value = 'javascript'.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[sequences]'.
+      lr_param->value = 'true'.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[properties]'.
+      lr_param->value = 'true'.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[dead_code]'.
+      lr_param->value = 'true'.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[drop_debugger]'.
+      lr_param->value = 'true'.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[conditionals]'.
+      lr_param->value = 'true'.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[comparisons]'.
+      lr_param->value = 'true'.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[evaluate]'.
+      lr_param->value = 'true'.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[booleans]'.
+      lr_param->value = 'true'.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[loops]'.
+      lr_param->value = 'true'.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[unused]'.
+      lr_param->value = 'true'.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[hoist_funs]'.
+      lr_param->value = 'true'.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[if_return]'.
+      lr_param->value = 'true'.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[join_vars]'.
+      lr_param->value = 'true'.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[cascade]'.
+      lr_param->value = 'true'.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[warnings]'.
+      lr_param->value = 'true'.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[negate_iife]'.
+      lr_param->value = 'true'.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[unsafe]'.
+      lr_param->value = 'false'.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[hoist_vars]'.
+      lr_param->value = 'false'.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[pure_getters]'.
+      lr_param->value = 'false'.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[drop_console]'.
+      lr_param->value = 'false'.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[keep_fargs]'.
+      lr_param->value = 'false'.
+      APPEND INITIAL LINE TO js_minify_params REFERENCE INTO lr_param.
+      lr_param->name = 'options[pure_funcs]'.
+      lr_param->value = ''.
+    ENDIF.
 
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[sequences]'.
-    lr_param->value = 'true'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[properties]'.
-    lr_param->value = 'true'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[dead_code]'.
-    lr_param->value = 'true'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[drop_debugger]'.
-    lr_param->value = 'true'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[conditionals]'.
-    lr_param->value = 'true'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[comparisons]'.
-    lr_param->value = 'true'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[evaluate]'.
-    lr_param->value = 'true'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[booleans]'.
-    lr_param->value = 'true'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[loops]'.
-    lr_param->value = 'true'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[unused]'.
-    lr_param->value = 'true'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[hoist_funs]'.
-    lr_param->value = 'true'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[if_return]'.
-    lr_param->value = 'true'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[join_vars]'.
-    lr_param->value = 'true'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[cascade]'.
-    lr_param->value = 'true'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[warnings]'.
-    lr_param->value = 'true'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[negate_iife]'.
-    lr_param->value = 'true'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[unsafe]'.
-    lr_param->value = 'false'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[hoist_vars]'.
-    lr_param->value = 'false'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[pure_getters]'.
-    lr_param->value = 'false'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[drop_console]'.
-    lr_param->value = 'false'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[keep_fargs]'.
-    lr_param->value = 'false'.
-    APPEND INITIAL LINE TO rt_params REFERENCE INTO lr_param.
-    lr_param->name = 'options[pure_funcs]'.
-    lr_param->value = ''.
+    rt_params = js_minify_params.
 
   ENDMETHOD.                    "GET_JS_MINIFY_PARAMS
 
@@ -973,19 +979,6 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
 
   METHOD string_to_xstring.
 
-*    CALL FUNCTION 'HR_KR_STRING_TO_XSTRING'
-*      EXPORTING
-**       CODEPAGE_TO      = '8500'
-*        unicode_string   = in
-**       OUT_LEN          = OUT_LEN
-*      IMPORTING
-*        xstring_stream   = out
-*      EXCEPTIONS
-*        invalid_codepage = 1
-*        invalid_string   = 2
-*        OTHERS           = 3 ##FM_SUBRC_OK.
-
-
     DATA(lv_conv) = cl_abap_conv_out_ce=>create( ).
 
     CALL METHOD lv_conv->write
@@ -1112,27 +1105,15 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
 
   METHOD xstring_to_string.
 
-*    CALL FUNCTION 'HR_KR_XSTRING_TO_STRING'
-*      EXPORTING
-**       FROM_CODEPAGE = '8500'
-*        in_xstring = in
-**       OUT_LEN    = OUT_LEN
-*      IMPORTING
-*        out_string = out.
-
-    DATA lo_conv TYPE REF TO cl_abap_conv_in_ce.
-
-    CALL METHOD cl_abap_conv_in_ce=>create
-      EXPORTING
+    DATA(conv) = cl_abap_conv_in_ce=>create(
         encoding    = 'UTF-8'
         endian      = 'L'
         ignore_cerr = 'X'
         replacement = '#'
         input       = in
-      RECEIVING
-        conv        = lo_conv.
+             ).
 
-    CALL METHOD lo_conv->read
+    CALL METHOD conv->read
       IMPORTING
         data = out.
 

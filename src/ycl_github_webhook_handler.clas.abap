@@ -248,38 +248,114 @@ CLASS YCL_GITHUB_WEBHOOK_HANDLER IMPLEMENTATION.
 
 
   METHOD if_http_extension~handle_request.
-    DATA: ls_push      TYPE github_push_type,
-          lt_stringtab TYPE stringtab,
-          ls_string    TYPE string,
-          lt_rfcdest   TYPE STANDARD TABLE OF rfcdest,
-          lr_rfcdest   TYPE REF TO rfcdest.
+
+    DATA: ls_push      TYPE           github_push_type,
+          lt_stringtab TYPE           stringtab,
+          lv_jobnumber TYPE           tbtcjob-jobcount,
+          lv_jobname   TYPE           tbtcjob-jobname,
+          lt_params    TYPE TABLE OF  rsparams,
+          lr_param     TYPE REF TO    rsparams.
 
     ls_push = get_commit_details( server ).
 
+    CHECK ls_push IS NOT INITIAL.
+
+* We are only interested in deploying the master branch
+    SPLIT ls_push-ref AT '/' INTO TABLE lt_stringtab.
+    CHECK lt_stringtab[ lines( lt_stringtab ) ] EQ ls_push-repository-master_branch.
+
+* Check this is a repo we want to deploy here
     CASE ls_push-repository-full_name.
-      WHEN 'grahamrobbo/demojam'.
+      WHEN 'grahamrobbo/demojam'.  "Most repos take a while to deploy - so submit a batch job to do the work
+
+        APPEND INITIAL LINE TO lt_params REFERENCE INTO lr_param.
+        lr_param->selname = 'GIT_REPO'.
+        lr_param->kind = 'S'.
+        lr_param->sign = 'I'.
+        lr_param->option = 'EQ'.
+        lr_param->low = ls_push-repository-full_name.
+
+        IF ls_push-repository-master_branch IS NOT INITIAL.
+          APPEND INITIAL LINE TO lt_params REFERENCE INTO lr_param.
+          lr_param->selname = 'BRANCH'.
+          lr_param->kind = 'S'.
+          lr_param->sign = 'I'.
+          lr_param->option = 'EQ'.
+          lr_param->low = ls_push-repository-master_branch.
+        ENDIF.
+
+*          " Note GitHub credentials only required for private repos
+*          IF github_user IS NOT INITIAL.
+*            APPEND INITIAL LINE TO lt_params REFERENCE INTO lr_param.
+*            lr_param->selname = 'USERNAME'.
+*            lr_param->kind = 'S'.
+*            lr_param->sign = 'I'.
+*            lr_param->option = 'EQ'.
+*            lr_param->low = github_user.
+*
+*            IF password IS NOT INITIAL.
+*              APPEND INITIAL LINE TO lt_params REFERENCE INTO lr_param.
+*              lr_param->selname = 'PASSWORD'.
+*              lr_param->kind = 'S'.
+*              lr_param->sign = 'I'.
+*              lr_param->option = 'EQ'.
+*              lr_param->low = github_password.
+*            ENDIF.
+*          ENDIF.
+*
+*          " Note workbench request can be specified in the .Ui5RepositoryUploadParameters file
+*          IF transport IS NOT INITIAL.
+*            APPEND INITIAL LINE TO lt_params REFERENCE INTO lr_param.
+*            lr_param->selname = 'TRANSPORT'.
+*            lr_param->kind = 'S'.
+*            lr_param->sign = 'I'.
+*            lr_param->option = 'EQ'.
+*            lr_param->low = transport.
+*          ENDIF.
+
+        APPEND INITIAL LINE TO lt_params REFERENCE INTO lr_param.
+        lr_param->selname = 'TEST'.
+        lr_param->kind = 'S'.
+        lr_param->sign = 'I'.
+        lr_param->option = 'EQ'.
+        lr_param->low = abap_false.
+
+        lv_jobname = |Deploy { ls_push-repository-full_name }|.
+        CALL FUNCTION 'JOB_OPEN'
+          EXPORTING
+            jobname          = lv_jobname
+          IMPORTING
+            jobcount         = lv_jobnumber
+          EXCEPTIONS
+            cant_create_job  = 1
+            invalid_job_data = 2
+            jobname_missing  = 3
+            OTHERS           = 4.
+        CHECK sy-subrc = 0.
+
+        SUBMIT ygithub_deploy_ui5_repository
+          WITH SELECTION-TABLE lt_params
+          VIA JOB lv_jobname NUMBER lv_jobnumber AND RETURN.
+        CHECK sy-subrc = 0.
+
+        CALL FUNCTION 'JOB_CLOSE'
+          EXPORTING
+            jobcount             = lv_jobnumber
+            jobname              = lv_jobname
+            strtimmed            = 'X'
+          EXCEPTIONS
+            cant_start_immediate = 1
+            invalid_startdate    = 2
+            jobname_missing      = 3
+            job_close_failed     = 4
+            job_nosteps          = 5
+            job_notex            = 6
+            lock_failed          = 7
+            OTHERS               = 8.
 
       WHEN OTHERS.
         server->response->set_status( code = 404 reason = |Not found| ).
-        RETURN.
     ENDCASE.
-
-    SPLIT ls_push-ref AT '/' INTO TABLE lt_stringtab.
-    LOOP AT lt_stringtab INTO ls_string. ENDLOOP.
-    IF ls_string NE ls_push-repository-master_branch. "Only process master branch
-      server->response->set_status( code = 403 reason = |Forbidden| ).
-    ELSE.
-      CALL FUNCTION 'ZGITHUBDEPLOY'
-        EXPORTING
-          repository            = ls_push-repository-full_name
-          branch                = ls_push-repository-master_branch
-*         github_user           = 'github_user'
-*         password              = 'github_password'
-        EXCEPTIONS
-          system_failure        = 1
-          communication_failure = 2
-          OTHERS                = 3.
-    ENDIF.
 
   ENDMETHOD.
 
