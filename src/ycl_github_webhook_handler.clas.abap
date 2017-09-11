@@ -1,13 +1,11 @@
 class YCL_GITHUB_WEBHOOK_HANDLER definition
   public
-  final
   create public .
 
 public section.
 
   interfaces IF_HTTP_EXTENSION .
 protected section.
-private section.
 
   types:
     BEGIN OF user_profile_plan_type,
@@ -227,6 +225,7 @@ private section.
       !SERVER type ref to IF_HTTP_SERVER
     returning
       value(PUSH) type GITHUB_PUSH_TYPE .
+private section.
 ENDCLASS.
 
 
