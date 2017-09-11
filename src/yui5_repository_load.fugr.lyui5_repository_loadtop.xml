@@ -10,10 +10,18 @@
     <DBNA>D$</DBNA>
     <SUBC>I</SUBC>
     <APPL>S</APPL>
+    <RLOAD>E</RLOAD>
     <FIXPT>X</FIXPT>
     <LDBNAME>D$S</LDBNAME>
     <UCCHECK>X</UCCHECK>
    </PROGDIR>
+   <TPOOL>
+    <item>
+     <ID>R</ID>
+     <ENTRY>Include /UI5/LUI5_REPOSITORY_LOADP01</ENTRY>
+     <LENGTH>36</LENGTH>
+    </item>
+   </TPOOL>
   </asx:values>
  </asx:abap>
 </abapGit>
