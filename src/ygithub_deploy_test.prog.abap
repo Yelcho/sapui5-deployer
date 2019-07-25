@@ -28,7 +28,11 @@ REPORT ygithub_deploy_test.
 
 SELECTION-SCREEN BEGIN OF BLOCK blk_main.
 PARAMETERS:
-  git_repo TYPE string OBLIGATORY LOWER CASE
+  user     TYPE string LOWER CASE
+    DEFAULT ``,
+  password TYPE string LOWER CASE
+    DEFAULT ``,
+  repo     TYPE string OBLIGATORY LOWER CASE
     DEFAULT `grahamrobbo/demojam`,
   branch   TYPE string OBLIGATORY LOWER CASE
     DEFAULT `master`,
@@ -39,7 +43,9 @@ START-OF-SELECTION.
 
   TRY.
       ycl_github_deployer=>deploy(
-            repository  = git_repo
+            github_user = user
+            password    = password
+            repository  = repo
             branch      = branch
             test_only   = test ).
     CATCH cx_root INTO DATA(exc).
