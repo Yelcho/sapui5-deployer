@@ -81,8 +81,6 @@ private section.
   methods GET_MODULE_ARCHIVE
     importing
       !URL type STRING
-      !USER type STRING
-      !PASSWORD type STRING
     returning
       value(ARCHIVE) type ref to CL_ABAP_ZIP .
   methods GET_SUBMODULE_INFO
@@ -151,10 +149,7 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
 
     WRITE:/, `Adding module`, info-repository, info-branch, 'to archive'.
 
-    lo_archive = remove_cover_folder( get_module_archive(
-        url      = |https://github.com/{ info-repository }/zipball/{ info-branch }|
-        user     = me->github_user
-        password = me->password ) ).
+    lo_archive = remove_cover_folder( get_module_archive( |https://github.com/{ info-repository }/zipball/{ info-branch }| ) ).
 
     IF lo_archive IS NOT BOUND.
       WRITE:/, `Error with module`, info-repository, info-branch COLOR COL_NEGATIVE.
@@ -576,8 +571,8 @@ CLASS YCL_GITHUB_DEPLOYER IMPLEMENTATION.
       RETURN.
     ENDIF.
 
-    IF user IS NOT INITIAL.
-      lr_client->authenticate( username = user password = password ).
+    IF me->github_user IS NOT INITIAL.
+      lr_client->authenticate( username = me->github_user password = me->password ).
       lr_client->propertytype_accept_cookie = if_http_client=>co_enabled.
     ENDIF.
 
