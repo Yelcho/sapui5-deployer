@@ -235,7 +235,7 @@ CLASS YCL_GITHUB_WEBHOOK_HANDLER IMPLEMENTATION.
 
   METHOD get_commit_details.
     DATA(payload) = server->request->get_cdata( ).
-    SPLIT payload AT 'payload=' INTO DATA(junk) payload.
+    "SPLIT payload AT 'payload=' INTO DATA(junk) payload.
 
     /ui2/cl_json=>deserialize(
       EXPORTING json = cl_http_utility=>unescape_url( payload )

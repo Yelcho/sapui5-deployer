@@ -3,7 +3,7 @@
 *&---------------------------------------------------------------------*
 *&
 *&---------------------------------------------------------------------*
-REPORT ygithub_deploy_ui5_repository.
+REPORT ygithub_deploy_ui5_repository line-SIZE 120.
 
 DATA: exc TYPE REF TO cx_root.
 
